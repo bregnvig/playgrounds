@@ -1,0 +1,22 @@
+<leaflet class="pane" markers="markers" center="playgroundCenter"></leaflet>
+<playground-info-box playground="selectedPlayground" rating="rating"></playground-info-box>
+<sidebar class="menu">
+      <form>
+          <div class="input-group">
+              <div class="input-group-addon"><i class="fa fa-lg fa-search"></i></div>
+              <input type="text" class="form-control input-lg" id="filterPlaygrounds" placeholder="Filtrer legepladser" ng-model="filterText">
+          </div>
+      </form>
+      <div class="playgrounds-list">
+        <div class="list-group">
+            <a href ng-href="#/playground/{{playground.id}}" class="list-group-item" ng-repeat="playground in playgrounds | filter:{'navn': filterText} |limitTo:50" ng-class="{'active': playground === selectedPlayground}">
+                <span class="badge" title="{{playground.position | distance}}" ng-bind="playground.position | distance | humanizeDistance"></span>
+                <h4 class="list-group-item-heading" ng-bind="playground.navn"></h4>
+                <p class="list-group-item-text" ng-bind="playground.beskrivelse | defaultDescription"></p>
+            </a>
+            <li class="list-group-item text-center" ng-if="playgrounds.length === 0">
+                <i class="fa fa-2x fa-spinner fa-spin"></i>
+            </li>
+        </div>
+    </div>
+</sidebar>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="playgrounds">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Legepladser</title>
+
+    <!-- Bootstrap -->
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="bower_components/leaflet/dist/leaflet.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+
+</head>
+  <body>
+    <div class="pane-container" ng-view></div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/geolib/dist/geolib.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script src="bower_components/angular-leaflet/dist/angular-leaflet-directive.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="app.js"></script>
+    <script src="filters.js"></script>
+    <script src="directives.js"></script>
+    <script src="services.js"></script>
+    <script src="test-playgrounds.js"></script>
+  </body>
+</html>

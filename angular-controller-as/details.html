@@ -1,0 +1,27 @@
+<div class="pane pane-container vertical">
+    <section class="pane fixed-size pane-container details-top">
+        <form name="ratingCtrl.review" class="pane pane-container vertical pane-33 bg-primary">
+            <h3 class="text-center">Din vurdering!</h3>
+            <textarea class="form-control pane fixed-size" autofocus placeholder="Vurdering" required rows="4" ng-model="ratingCtrl.model.comment"></textarea>
+            <h1 class="text-center">
+                <my-rating rating="ratingCtrl.model.rating" read-only="false"></my-rating>
+            </h1>
+            <rating message="ratingCtrl.model.comment" rating="ratingCtrl.model.rating"></rating>
+            <button class="btn btn-lg btn-block btn-default" ng-class="{'disabled': ratingCtrl.review.$invalid}" ng-click="ratingCtrl.createRating()"><strong>INDSEND</strong></button>
+        </form>
+        <section class="pane pane-container vertical ratings" ng-controller="MapsCtrl as mapsCtrl">
+            <leaflet class="pane" markers="mapsCtrl.markers" center="mapsCtrl.playgroundCenter"></leaflet>
+        </section>
+    </section>
+    <section class="pane-2 pane-container vertical details-bottom">
+        <header class="pane fixed-size padding">
+            <h3>{{ratingCtrl.playground.navn}} <span class="pull-right"><my-rating rating="ratingCtrl.rating.averageRating" read-only="true"></my-rating></span></h3>
+        </header>
+        <div class="pane pane-container wrap ratings padding">
+          <div class="pane fixed-size rating" ng-repeat="rating in ratingCtrl.ratings">
+            <rating message="rating.comment" rating="rating.rating"></rating>
+          </div>
+        </div>
+    </section>
+</div>
+<a class="back" ng-href="#/playground/{{ratingCtrl.playground.id}}"><i class="fa fa-3x fa-close"></i> </a>

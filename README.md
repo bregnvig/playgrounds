@@ -19,7 +19,7 @@ Using the newer and preferred `controllerAs` syntax instead of `$scope`
 
 The directives uses the `bindToController`.
 
-`$scope` will still be used the watching values.
+`$scope` will still be used for watching the model.
 
 ## angular-typescript
 

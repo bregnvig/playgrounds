@@ -10,47 +10,48 @@ module playgrounds.feature.details {
   import IPlayground = playgrounds.common.model.IPlayground;
 
   export interface IDetailsScope {
-    rating:ILocationResource;
-    ratings:angular.resource.IResourceArray<IRatingResource>;
-    playground:IPlayground;
-    createRating():void;
+    rating: ILocationResource;
+    ratings: angular.resource.IResourceArray<IRatingResource>;
+    playground: IPlayground;
+    createRating(): void;
   }
 
   class RatingForm {
-    rating:number;
-    comment:string;
+    public rating: number;
+    public comment: string;
   }
 
   class DetailsController implements IDetailsScope {
 
-    rating:playgrounds.common.model.ILocationResource;
-    ratings:angular.resource.IResourceArray<IRatingResource>;
-    playground:IPlayground;
-    private model:RatingForm = new RatingForm();
-    private review:angular.IFormController;
+    public rating: playgrounds.common.model.ILocationResource;
+    public ratings: angular.resource.IResourceArray<IRatingResource>;
+    public playground: IPlayground;
 
-    static $inject = ['$routeParams', 'playgroundService', 'Playground', 'Rating'];
+    public static $inject = ['$routeParams', 'playgroundService', 'Playground', 'Rating'];
 
-    constructor(private $routeParams:angular.route.IRouteParamsService, playgroundService:IPlaygroundService, Playground:ILocationResourceService, private Rating:IRatingResourceService) {
+    private model: RatingForm = new RatingForm();
+    private review: angular.IFormController;
+
+    constructor(private $routeParams: angular.route.IRouteParamsService, playgroundService: IPlaygroundService, Playground: ILocationResourceService, private Rating: IRatingResourceService) {
       playgroundService.find(this.getId()).then((playground) => {
-        console.log('Playground', playground);
         this.playground = playground;
       });
-      this.rating = Playground.get({ id: this.getId() });
-      this.ratings = this.Rating.query({ id: this.getId() });
+      this.rating = Playground.get({id: this.getId()});
+      this.ratings = this.Rating.query({id: this.getId()});
     }
 
-    private getId():string {
-      return this.$routeParams['id'];
-    }
-
-    createRating():void {
-      new this.Rating(this.model).$save({ id: this.getId() }, () => {
-        this.ratings = this.Rating.query({ id: this.getId() });
+    public createRating(): void {
+      new this.Rating(this.model).$save({id: this.getId()}, () => {
+        this.ratings = this.Rating.query({id: this.getId()});
         this.model = new RatingForm();
         this.review.$setUntouched();
       });
     }
+
+    private getId(): string {
+      return this.$routeParams['id'];
+    }
+
   }
 
   angular.module('playgrounds')

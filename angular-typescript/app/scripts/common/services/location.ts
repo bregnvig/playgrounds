@@ -12,12 +12,16 @@ module playgrounds.common.service {
 
     constructor(private $window: angular.IWindowService, private $q: angular.IQService) {
       this.promise = $q((resolve, reject) => {
-        $window.navigator.geolocation.getCurrentPosition((position) => {
-          console.log('Got current position', position.coords);
-          resolve(new playgrounds.common.model.Coordinate(position.coords.latitude, position.coords.longitude));
-        }, () => {
-          reject('Unable to get current position');
-        });
+        if ($window.navigator.geolocation) {
+          $window.navigator.geolocation.getCurrentPosition((position) => {
+            console.log('Got current position', position.coords);
+            resolve(new playgrounds.common.model.Coordinate(position.coords.latitude, position.coords.longitude));
+          }, () => {
+            reject('Unable to get current position');
+          });
+        } else {
+          reject('geolocation is not supported by the browser');
+        }
       });
     }
 

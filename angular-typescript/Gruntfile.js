@@ -41,7 +41,8 @@ module.exports = function (grunt) {
         }
       },
       test: {
-        src: ['test/spec/{,*/}*.ts'],
+        src: ['<%= yeoman.app %>/scripts/**/*.ts', 'test/**/*.ts'],
+        dest: 'test/compiled',
         options: {
           target: 'es5',
           sourceMap: true
@@ -59,7 +60,7 @@ module.exports = function (grunt) {
         tasks: ['typescript']
       },
       tsTest: {
-        files: ['test/spec/{,*/}*.ts'],
+        files: ['test/spec/**/*.ts', 'test/mock/**/*.ts'],
         tasks: ['typescript:test']
       },
       js: {
@@ -70,7 +71,7 @@ module.exports = function (grunt) {
         }
       },
       jsTest: {
-        files: ['test/spec/{,*/}*.js'],
+        files: ['test/compiled/**/*.js'],
         tasks: ['newer:jshint:test', 'karma']
       },
       styles: {
@@ -464,6 +465,7 @@ module.exports = function (grunt) {
   grunt.registerTask('test', [
     'clean:server',
     'wiredep',
+    'typescript:test',
     'concurrent:test',
     'postcss',
     'connect:test',

@@ -5,7 +5,7 @@ module playgrounds.test.spec.common {
 
   'use strict';
 
-  describe('Services', function () {
+  describe('Services', () => {
 
 
     beforeEach(angular.mock.module('playgrounds'));

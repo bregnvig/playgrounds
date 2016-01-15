@@ -23,7 +23,7 @@ Applikationen er skrevet i ren JavaScript med AngularJS. Men hvad kræver det at
 ### Modellen
 Der er umiddelbart to modeller i denne case. Der er modellen man får fra Copenhagen Data og så er der den interne model. Når vi benytter ren Javascript er modellen ikke defineret, mens vi med TypeScript kan og bør definere disse to modeller. Dette kan man gøre vha. interfaces. Den interne legeplads er defineret således:
 
-```javascript
+```java
 export interface ICoordinate {
   lat: number;
   lng: number;
@@ -180,10 +180,131 @@ class MapCtrl implements IMapScope {
     });
   }
 }
-
-angular.module('playgrounds')
-  .controller('MapCtrl', MapCtrl);  
 ```
 Constructoren er også stedet vi udfører de ting der skal ske i forbindelse med at controlleren starter op. I dette tilfælde henter vi legepladserne, og hvis der er valgt en specifik legeplads, så henter vi også denne.
 
 Lig mærke til `$inject`. Dette statiske string array er nødvendigt, hvis vi ønsker at kunne uglify vores JS kode.
+
+Hvor det er en lille smule bøvlet at registere en service med AngularJS og TypeScript, er det super simpelt med controllers. Her angiver vi blot vores klasse som controller function.
+
+```javascript
+angular.module('playgrounds')
+  .controller('MapCtrl', MapCtrl);  
+```
+
+Fordelen ved at have sin controllers i TypeScript er at vi får kompiler og IDE support under udviklingen af controlleren. Desværre kan Webstorm ikke endnu hjælpe når vi først er i vores HTML templates.
+
+### Directives
+
+Når vi laver directives laver vi det på samme måde som services og controllers. Vi laver det med klasser. Klassen vi implementere skal implementere `angular.IDirective`.
+
+```java
+class MyRating implements angular.IDirective {
+  public restrict = 'E';
+  public templateUrl = 'scripts/common/directives/my-rating.tmpl.html';
+  public bindToController = {
+    rating: '=',
+    readOnly: '='
+  };
+  public scope = {};
+  public controllerAs = 'vm';
+  public controller = MyRatingController;
+
+  public link(scope: angular.IScope, element: angular.IAugmentedJQuery, attrs: angular.IAttributes, vm: MyRatingController) {
+    ...
+  }
+```
+
+Som man ser her, så kan de enkelte konfigurations properties blot defineres direkte på klassen.
+
+Det giver os muligheden for senere at nedarve fra denne klasse og lave en variant af vores directive. Jeg har ikke selv haft dette behov, men muligheden eksistere i hvert fald, når vi benytter klasser til vores directives.
+
+Som det kan ses fra eksemplet er det selvfølgelig også muligt at benytte `bindToController` istedet for isolated `scope`, når man benytter TypeScript.
+
+Lige som med services, er det lidt bøvlet at registere et directive der er lavet som klasse i angular. Det er dog den præcis som metode som med services.
+
+```java
+class MyRating implements angular.IDirective {
+
+  ...
+
+  public static factory() {
+    const directive = (): angular.IDirective => {
+      return new MyRating();
+    };
+    return directive;
+  }
+}
+
+angular.module('playgrounds')
+  .directive('myRating', MyRating.factory());
+```
+
+### Filters
+
+Selvom vi ikke implementere filter som klasser kan vi godt få glæde at TypeScript typer, selvom det mest er ved udviklingen af filteret og ikke ved brug af filteret.
+
+I forbindelse med kurset skal kursisterne lave et `distance` filter. Dette filter skal vha. din position og legepladsens position beregne afstanden mellem de to. Lad os starte med at definere interfacet for denne operation:
+
+```java
+export interface IDistanceFilter {
+  (position: ICoordinate): string|number;
+}
+```
+
+Som vi kan se fra `IDistanceFilter` så beskriver interface én funktion som tager én parameter, som er af type ICoordinate. Filter funktionen returnere enten en string eller et nummer. Dette skyldes at hvis din position ikke er fastlagt, så kan distancen ikke beregnes, og der returneres i stedet for beskeden 'Ukendt'.
+
+Næste skridt er at lave filteret der returnere en filter funktion der implementere `IDistanceFilter`.
+```java
+const distance = (location: ILocationService): IDistanceFilter => {
+
+  let currentPosition: ICoordinate;
+
+  location.get().then((position) => {
+    currentPosition = position;
+  });
+
+  return (position: ICoordinate): number|string => {
+    if (currentPosition && position) {
+      return geolib.getDistance(currentPosition, position);
+    }
+    return 'Ukendt';
+  };
+};
+distance.$inject = ['location'];
+```
+Vi opretter en distance function som tager en parameter. Denne `location` parameter vil blive dependency injected af AngularJS. Funktionen selv returnere en funktion der implementere vores `IDistanceFilter`.
+
+Sidst tilføjer vi vores `$inject` property, for at vores filter kan fungerer med [uglify](https://github.com/gruntjs/grunt-contrib-uglify).
+
+At registere vores filter med AngularJS er super simpelt:
+
+```java
+angular.module('playgrounds')
+  .filter('distance', distance);
+```
+Når vi benytter vores filter i en template får vi desværre ikke hjælp fra Webstorm. Dvs. at der er ingen compile checking etc. Dog giver vores interface os en fordel, hvis vi injecter vores filter i en controller, i en service, eller når vi injecter den i vores test af filteret.
+
+```java
+distance = _$filter_<IDistanceFilter>('distance');
+```
+
+## Opsummering
+
+Der er masse af fordele ved at benytte TypeScript når man udvikler AngularJS applikationer. TypeScript's syntax er relativ simpelt at gå til og den lidt anderledes syntax når vi skriver vores AngularJS kode er ikke svær at blive fortrolig med.
+
+Det er besværtligt at skrive AngularJS med TypeScript, hvis man ikke benytter sig af tools som eksempel [grunt](http://gruntjs.com/) eller [gulp](http://gulpjs.com/). På den ene side kan man argumentere for at hvem skriver alligevel AngularJS applikationer uden tools, mens man på den anden side kan argumentere for at man bevæger sig væk fra det der er skønt ved JavaScript, nemlig at man ikke skal have IDE'er, compileres, debugger installeret.
+
+Og ideen om at man kompilere fra TypeScript til Javascript er for mig heller ikke specielt tiltalende. Jeg føler dog at jeg bør nævne, at der i forbindelse kompile processen, kan skabes en mapping fil, der gør at man debugger sine `.ts` filer og ikke sine kompileret `.js` filer. Det er en stor hjælp.
+
+Samlet set må konklusionen være at man bør kaste sig over TypeScript. Det er en kæmpe hjælpe at få kompileringsfejl og IDE hjælp, og endnu mere når opgaven bliver større end denne lille case med legepladser.
+
+## Source kode
+
+Source koden kan hentes på [github](https://github.com/bregnvig/playgrounds)
+
+Repositoriet består af tre implementationer af den samme case.
+  
+* angular-with-scope
+* angular-controller-as
+* angular-typescript

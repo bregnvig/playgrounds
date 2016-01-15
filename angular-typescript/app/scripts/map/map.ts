@@ -1,6 +1,8 @@
 module playgrounds.feature.map {
   'use strict';
 
+  import IRouteParamsService = angular.route.IRouteParamsService;
+
   import Coordinate = playgrounds.common.model.Coordinate;
   import ICoordinate = playgrounds.common.model.ICoordinate;
   import IPlayground = playgrounds.common.model.IPlayground;
@@ -20,7 +22,7 @@ module playgrounds.feature.map {
   }
 
   interface IMapScope {
-    filterText: string;
+    filterText: IFilterText;
     markers: IMarker;
     playgroundCenter: ICoordinate;
     playgrounds: IPlayground[];
@@ -41,15 +43,14 @@ module playgrounds.feature.map {
 
   class MapCtrl implements IMapScope {
 
-    public static $inject = ['$scope', '$routeParams', 'playgroundService', 'location'];
+    public static $inject = ['$routeParams', 'playgroundService', 'location', 'filterText'];
 
     public playgrounds: IPlayground[];
     public selectedPlayground: IPlayground;
-    public filterText: string = sessionStorage['filterText'] || '';
     public markers: IMarker = {};
     public playgroundCenter: ICoordinate = new MapCenter(new Coordinate(56.360029, 10.746635), 8);
 
-    constructor($scope: angular.IScope, private $routeParams: angular.route.IRouteParamsService, playgroundService: IPlaygroundService, location: ILocationService) {
+    constructor(private $routeParams: IRouteParamsService, playgroundService: IPlaygroundService, location: ILocationService, public filterText: IFilterText) {
       playgroundService.playgrounds().then((playgrounds) => {
         this.playgrounds = playgrounds;
       });
@@ -60,13 +61,8 @@ module playgrounds.feature.map {
           this.playgroundCenter = new MapCenter(playground.position);
         });
       }
-
       location.get().then((coordinates) => {
         this.markers['meMarker'] = new MapMarker(coordinates, 'Her er jeg');
-      });
-
-      $scope.$on('$destroy', () => {
-        sessionStorage['filterText'] = this.filterText;
       });
     }
 

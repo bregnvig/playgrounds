@@ -3,11 +3,11 @@
 ## Introduktion
 AngularJS er blevet populært hos mange danske virksomheder. En af de attraktive ting ved AngularJS er at man finder mange af de samme dyder i AngularJS som man finder i eksempelvis Java.
 
-Man har “separation of concern” som klart definerer hvorledes ens applikation bør opsplittes. Vi har vores services til vores forretningslogik, vi har vores controllers til at dirigere sammenhængen med brugergrænsefladen og forretningslogikken. Vi har vores directives og filters til vores præsentation osv.
+Man har “separation of concern” som klart definerer hvorledes ens applikation bør opsplittes. Vi har vores services til vores forretningslogik, vi har vores controllers til at dirigere sammenhængen med brugergrænsefladen og forretningslogikken. Vi har vores directives og filters til præsentation osv.
 
 Alt dette gør det nemmere for folk med erfaring i det klassiske MVC mønster at komme i gang. Samtidigt får man delt sin kode op i mindre bidder, som dermed både er lettere at genbruge, men bestemt også lettere at teste.
 
-Men et problem blev ikke løst. Problemet med de manglende typer. Løsning mulighed: [TypeScript](http://www.typescriptlang.org/). Hvad er [TypeScript](http://www.typescriptlang.org/)? I følge Microsoft:
+Men ét problem blev ikke løst. Problemet med de manglende typer. Løsning mulighed: [TypeScript](http://www.typescriptlang.org/). Hvad er [TypeScript](http://www.typescriptlang.org/)? I følge Microsoft:
 
 > TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.
 
@@ -18,7 +18,7 @@ I forbindelse med jeg har afholdt [AngularJS foundation](https://www.lundogbends
 
 ![Playgrounds screenshot](assets/screenshot.png)
 
-Applikationen er skrevet i ren JavaScript med AngularJS. Men hvad kræver det at gå fra en type løs applikation til en AngularJS applikation der benytter [TypeScript](http://www.typescriptlang.org/)? Lad os se på de forskellige dele.
+Applikationen er skrevet i ren Javascript med [AngularJS](https://angularjs.org/). Men hvad kræver det at gå fra en type løs applikation til en [AngularJS](https://angularjs.org/) applikation der benytter [TypeScript](http://www.typescriptlang.org/)? Lad os se på de forskellige dele.
 
 ### Modellen
 Der er umiddelbart to modeller i denne case. Der er modellen man får fra Copenhagen Data og så er der den interne model. Når vi benytter ren Javascript er modellen ikke defineret, mens vi med [TypeScript](http://www.typescriptlang.org/) kan og bør definere disse to modeller. Dette kan man gøre vha. interfaces. Den interne legeplads er defineret således:
@@ -88,7 +88,7 @@ class PlaygroundService implements IPlaygroundService {
 }
 
 ```
-Det er desværre ikke specielt elegant at få registeret en service i AngularJS, når man benytter [TypeScript](http://www.typescriptlang.org/) klasser til sine services. Men med en relativ simple statisk factory metode på klassen fungerer det nogenlunde:
+Det er desværre ikke specielt elegant at få registeret en service i [AngularJS](https://angularjs.org/), når man benytter [TypeScript](http://www.typescriptlang.org/) klasser til sine services. Men med en relativ simple statisk factory metode på klassen fungerer det nogenlunde:
 
 ```java
 class PlaygroundService implements IPlaygroundService {
@@ -185,7 +185,7 @@ Constructoren er også stedet vi udfører de ting der skal ske i forbindelse med
 
 Lig mærke til `$inject`. Dette statiske string array er nødvendigt, hvis vi ønsker at kunne uglify vores JS kode.
 
-Hvor det er en lille smule bøvlet at registere en service med AngularJS og [TypeScript](http://www.typescriptlang.org/), er det super simpelt med controllers. Her angiver vi blot vores klasse som controller function.
+Hvor det er en lille smule bøvlet at registere en service med [AngularJS](https://angularjs.org/) og [TypeScript](http://www.typescriptlang.org/), er det super simpelt med controllers. Her angiver vi blot vores klasse som controller function.
 
 ```javascript
 angular.module('playgrounds')
@@ -273,11 +273,11 @@ const distance = (location: ILocationService): IDistanceFilter => {
 };
 distance.$inject = ['location'];
 ```
-Vi opretter en distance function som tager en parameter. Denne `location` parameter vil blive dependency injected af AngularJS. Funktionen selv returnere en funktion der implementere vores `IDistanceFilter`.
+Vi opretter en distance function som tager en parameter. Denne `location` parameter vil blive dependency injected af [AngularJS](https://angularjs.org/). Funktionen selv returnere en funktion der implementere vores `IDistanceFilter`.
 
 Sidst tilføjer vi vores `$inject` property, for at vores filter kan fungerer med [uglify](https://github.com/gruntjs/grunt-contrib-uglify).
 
-At registere vores filter med AngularJS er super simpelt:
+At registere vores filter med [AngularJS](https://angularjs.org/) er super simpelt:
 
 ```java
 angular.module('playgrounds')
@@ -291,9 +291,9 @@ distance = _$filter_<IDistanceFilter>('distance');
 
 ## Opsummering
 
-Der er masse af fordele ved at benytte [TypeScript](http://www.typescriptlang.org/) når man udvikler AngularJS applikationer. [TypeScript](http://www.typescriptlang.org/)'s syntax er relativ simpelt at gå til og den lidt anderledes syntax når vi skriver vores AngularJS kode er ikke svær at blive fortrolig med.
+Der er masse af fordele ved at benytte [TypeScript](http://www.typescriptlang.org/) når man udvikler [AngularJS](https://angularjs.org/) applikationer. [TypeScript](http://www.typescriptlang.org/)'s syntax er relativ simpelt at gå til og den lidt anderledes syntax når vi skriver vores [AngularJS](https://angularjs.org/) kode er ikke svær at blive fortrolig med.
 
-Det er besværtligt at skrive AngularJS med [TypeScript](http://www.typescriptlang.org/), hvis man ikke benytter sig af tools som eksempel [grunt](http://gruntjs.com/) eller [gulp](http://gulpjs.com/). På den ene side kan man argumentere for at hvem skriver alligevel AngularJS applikationer uden tools, mens man på den anden side kan argumentere for at man bevæger sig væk fra det der er skønt ved JavaScript, nemlig at man ikke skal have IDE'er, compileres, debugger installeret.
+Det er besværtligt at skrive [AngularJS](https://angularjs.org/) med [TypeScript](http://www.typescriptlang.org/), hvis man ikke benytter sig af tools som eksempel [grunt](http://gruntjs.com/) eller [gulp](http://gulpjs.com/). På den ene side kan man argumentere for at hvem skriver alligevel [AngularJS](https://angularjs.org/) applikationer uden tools, mens man på den anden side kan argumentere for at man bevæger sig væk fra det der er skønt ved Javascript, nemlig at man ikke skal have IDE'er, compileres, debugger installeret.
 
 Og ideen om at man kompilere fra [TypeScript](http://www.typescriptlang.org/) til Javascript er for mig heller ikke specielt tiltalende. Jeg føler dog at jeg bør nævne, at der i forbindelse kompile processen, kan skabes en mapping fil, der gør at man debugger sine `.ts` filer og ikke sine kompileret `.js` filer. Det er en stor hjælp.
 

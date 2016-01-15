@@ -16,7 +16,7 @@ Så med [TypeScript](http://www.typescriptlang.org/) får vi igen interfaces, kl
 ## Case - Legepladser
 I forbindelse med jeg har afholdt [AngularJS foundation](https://www.lundogbendsen.dk/undervisning/beskrivelse/LB1730/JS+-+AngularJS+-+Foundation;jsessionid=C8B2C9CCCEA83B5B27A05BFB76BDC4E3) kurser for Lund&Bendsen, har kursisterne skulle udvikle en lille applikation, som benytter sig af [Copenhagen Data](http://data.kk.dk/) til at vise en liste af legepladser i København.
 
-![Playgrounds screenshot](screenshot.png)
+![Playgrounds screenshot](assets/screenshot.png)
 
 Applikationen er skrevet i ren JavaScript med AngularJS. Men hvad kræver det at gå fra en type løs applikation til en AngularJS applikation der benytter [TypeScript](http://www.typescriptlang.org/)? Lad os se på de forskellige dele.
 
@@ -54,13 +54,13 @@ En anden fordel ved defineret typer, eks. `IPlayground`, er at vores IDE nu kan 
 
 Vi har nu Code Completion, da vores IDE kender typerne:
 
-![Code Completion](CodeCompletion.png)
+![Code Completion](assets/CodeCompletion.png)
 
 Som vi kan se kender vores IDE ikke bare `IPlayground`'s egne properties, men også de nedarvet properties, eks. `toString`
 
 Uden `IPlayground` typen er vores IDE til stortset ingen hjælp:
 
-![No Code Completion](NoCodeCompletion.png)
+![No Code Completion](assets/NoCodeCompletion.png)
 
 ### Service
 
@@ -128,7 +128,7 @@ class MapCtrl implements IMapScope {
 ```
 Hvis vi kigger i vores IDE, kan man se at typen er kendt.
 
-![Kendt type](KnownType.png)
+![Kendt type](assets/KnownType.png)
 
 I dette eksempel kan vi se at IDE'et kender returtypen `angular.IPromise<IPlayground[]>` fra vores `playgrounds()` function.
 
@@ -185,3 +185,5 @@ angular.module('playgrounds')
   .controller('MapCtrl', MapCtrl);  
 ```
 Constructoren er også stedet vi udfører de ting der skal ske i forbindelse med at controlleren starter op. I dette tilfælde henter vi legepladserne, og hvis der er valgt en specifik legeplads, så henter vi også denne.
+
+Lig mærke til `$inject`. Dette statiske string array er nødvendigt, hvis vi ønsker at kunne uglify vores JS kode.

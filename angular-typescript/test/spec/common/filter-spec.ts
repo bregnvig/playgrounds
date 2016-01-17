@@ -11,8 +11,8 @@ module playgrounds.test.spec.common {
 
     describe('Humanize', () => {
       let humanizer: IHumanizeDistanceFilter;
-      beforeEach(inject((_$filter_: angular.IFilterService) => {
-        humanizer = _$filter_<IHumanizeDistanceFilter>('humanizeDistance');
+      beforeEach(inject((_humanizeDistanceFilter_: IHumanizeDistanceFilter) => {
+        humanizer = _humanizeDistanceFilter_;
       }));
 
       it('Should be to far to walk when the distance is 2km or more', () => {
@@ -33,8 +33,8 @@ module playgrounds.test.spec.common {
 
     describe('Default description', () => {
       let defaultDescription: IDefaultDescriptionFilter;
-      beforeEach(inject((_$filter_: angular.IFilterService) => {
-        defaultDescription = _$filter_<IDefaultDescriptionFilter>('defaultDescription');
+      beforeEach(inject((_defaultDescriptionFilter_: IDefaultDescriptionFilter) => {
+        defaultDescription = _defaultDescriptionFilter_;
       }));
       it('should return the given value, when the value is not undefined', () => {
         expect('Hello world').toEqual(defaultDescription('Hello world'));

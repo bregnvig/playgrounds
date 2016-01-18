@@ -314,7 +314,7 @@ declare module geolib {
 
 Geolib tilbyder flere funktioner end denne ene, men vi har kun brug for denne ene.
 
-Erklæringer som disse gemmes med filtypen `.d.ts`. I dette eksempel får vi altså en fil der hedder `geolib.d.ts` som skal compileres sammen med resten af projektet. Dette giver også IDE hjælp og compiler type checking. Se eksempelvis i vores [`distance`](#Filters) filter:
+Erklæringer som disse gemmes med filtypen `.d.ts`. I dette eksempel får vi altså en fil der hedder `geolib.d.ts` som skal compileres sammen med resten af projektet. Dette giver også IDE hjælp og compiler type checking. Se eksempelvis i vores [`distance`](#filters) filter:
 
 ```java
 return (position: ICoordinate): number|string => {

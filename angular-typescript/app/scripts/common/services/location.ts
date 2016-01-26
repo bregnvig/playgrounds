@@ -13,7 +13,7 @@ module playgrounds.common.service {
     constructor(private $window: angular.IWindowService, private $q: angular.IQService) {
       this.promise = $q((resolve, reject) => {
         if ($window.navigator.geolocation) {
-          $window.navigator.geolocation.getCurrentPosition((position) => {
+          $window.navigator.geolocation.getCurrentPosition((position:Position) => {
             console.log('Got current position', position.coords);
             resolve(new playgrounds.common.model.Coordinate(position.coords.latitude, position.coords.longitude));
           }, () => {

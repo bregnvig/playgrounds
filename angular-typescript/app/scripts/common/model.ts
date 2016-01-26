@@ -15,6 +15,9 @@ module playgrounds.common.model {
   }
 
   export class Coordinate implements ICoordinate {
+
+    public static DENMARK_CENTER = new Coordinate(56.360029, 10.746635);
+
     constructor(public lat: number, public lng: number) {
     }
   }

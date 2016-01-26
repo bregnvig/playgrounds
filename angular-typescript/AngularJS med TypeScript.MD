@@ -5,9 +5,9 @@ AngularJS er blevet populært hos mange danske virksomheder. En af de attraktive
 
 Man har “separation of concern” der klart definerer hvorledes ens applikation bør opsplittes. Vi har vores services til vores forretningslogik, vi har vores controllers til at dirigere sammenhængen med brugergrænsefladen og forretningslogikken. Vi har vores directives og filters til præsentation osv.
 
-Alt dette gør det nemmere for folk med erfaring i det klassiske MVC mønster at komme i gang. Samtidigt får man delt sin kode op i mindre bidder, som dermed både er lettere at genbruge, men bestemt også lettere at teste.
+Alt dette gør det nemmere for folk med erfaring i det klassiske MVC mønster at komme i gang. Samtidig får man delt sin kode op i mindre bidder, som dermed både er lettere at genbruge, men bestemt også lettere at teste.
 
-Men én ting mangler stadigvæk. Typer! Løsning mulighed: [TypeScript](http://www.typescriptlang.org/). Hvad er [TypeScript](http://www.typescriptlang.org/)? I følge Microsoft:
+Men én ting mangler stadigvæk. Typer! Løsningsmulighed: [TypeScript](http://www.typescriptlang.org/). Hvad er [TypeScript](http://www.typescriptlang.org/)? I følge Microsoft:
 
 > TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.
 
@@ -23,7 +23,7 @@ Applikationen er skrevet i ren Javascript med [AngularJS](https://angularjs.org/
 ### Modellen
 Der er umiddelbart to modeller i denne case. Der er modellen man får fra Copenhagen Data og så er der den interne model. Når vi benytter ren Javascript er modellen ikke defineret, mens vi med [TypeScript](http://www.typescriptlang.org/) kan og bør definere disse to modeller. Dette kan vi gøre vha. interfaces. Den interne legeplads er defineret således:
 
-```java
+```javascript
 export interface ICoordinate {
   lat: number;
   lng: number;
@@ -50,13 +50,13 @@ Hvis vi ved en fejl benytter `name` i stedet for `navn`, ville det være en fejl
 Dette synes jeg er en kæmpe fordel.
 
 #### IDE
-En anden fordel ved defineret typer, eks. `IPlayground`, er at vores IDE nu kan hjælpe os.
+En anden fordel ved definerede typer, eks. `IPlayground`, er at vores IDE nu kan hjælpe os.
 
 Vi har nu Code Completion, da vores IDE kender typerne:
 
 ![Code Completion](assets/CodeCompletion.png)
 
-Som vi kan se kender vores IDE ikke bare `IPlayground`'s egne properties, men også de nedarvet properties, eks. `toString`
+Som vi kan se kender vores IDE ikke bare `IPlayground`'s egne properties, men også de nedarvede properties, eks. `toString`
 
 Uden `IPlayground` typen er vores IDE til stortset ingen hjælp:
 
@@ -64,11 +64,11 @@ Uden `IPlayground` typen er vores IDE til stortset ingen hjælp:
 
 ### Service
 
-I vores case med legepladser skal kursisterne lave en service der henter legepladserne fra Copenhagen Data. Servicen har en metode der returnere et promise, der når legepladserne er hentet, afleverer et array med `IPlayground`s.
+I vores case med legepladser skal kursisterne lave en service der henter legepladserne fra Copenhagen Data. Servicen har en metode der returnerer et promise, der når legepladserne er hentet, afleverer et array med `IPlayground`s.
 
 Med [TypeScript](http://www.typescriptlang.org/) skriver vi vores services som klasser. Og på samme måde som med vores model, opretter vi et interface der beskriver de funktioner vores service skal implementere. I denne case kommer interfacet til at se således ud:
 
-```java
+```javascript
 export interface IPlaygroundService {
   playgrounds(): angular.IPromise<IPlayground[]>;
   find(id: string): angular.IPromise<IPlayground>;
@@ -76,7 +76,7 @@ export interface IPlaygroundService {
 ```
 Og selve service klassen:
 
-```java
+```javascript
 class PlaygroundService implements IPlaygroundService {
   public playgrounds(): angular.IPromise<IPlayground[]> {
     ...
@@ -90,7 +90,7 @@ class PlaygroundService implements IPlaygroundService {
 ```
 Det er desværre ikke specielt elegant at få registeret en service i [AngularJS](https://angularjs.org/), når man benytter [TypeScript](http://www.typescriptlang.org/) klasser til sine services. Men med en relativ simple statisk factory metode på klassen fungerer det nogenlunde:
 
-```java
+```javascript
 class PlaygroundService implements IPlaygroundService {
 
   ...
@@ -109,11 +109,11 @@ angular.module('playgrounds')
 
 ```
 
-Når `IPlaygroundService` bliver injected i eksempelvis en controller, vil vores IDE hjælpe os med hvilken funktioner vi kan kalde og vores compiler vil give fejl, hvis vi benytter funktioner der ikke findes.
+Når `IPlaygroundService` bliver injected i eksempelvis en controller, vil vores IDE hjælpe os med hvilke funktioner vi kan kalde og vores compiler vil give fejl, hvis vi benytter funktioner der ikke findes.
 
 Eksempel hvor jeg benytter servicen:
 
-```java
+```javascript
 class MapCtrl implements IMapScope {
 
   public playgrounds: IPlayground[];
@@ -139,7 +139,7 @@ Når vi benytter [TypeScript](http://www.typescriptlang.org/) skriver vi vores c
 
 Vi starter med at definere de properties og funktioner som vores UI har brug for:
 
-```java
+```javascript
 interface IMapScope {
   filterTextService: IFilterTextService;
   markers: IMarker;
@@ -153,7 +153,7 @@ Efterfølgende implementerer vi selve klassen.
 
 I [TypeScript](http://www.typescriptlang.org/) har vi en constructor funktion. Vi benytter denne til at få injected de afhængigheder controlleren har.
 
-```java
+```javascript
 class MapCtrl implements IMapScope {
 
   public static $inject = ['$scope', '$routeParams', 'playgroundService', 'location', 'filterTextService'];
@@ -161,7 +161,7 @@ class MapCtrl implements IMapScope {
   public playgrounds: IPlayground[];
   public selectedPlayground: IPlayground;
   public markers: IMarker = {};
-  public playgroundCenter: ICoordinate = new MapCenter(new Coordinate(56.360029, 10.746635), 8);
+  public playgroundCenter: ICoordinate = new MapCenter(Coordinate.DENMARK_CENTER, 8);
 
   constructor(private $routeParams: IRouteParamsService, playgroundService: IPlaygroundService, location: ILocationService, public filterTextService: IFilterTextService) {
     if ($routeParams['id']) {
@@ -182,7 +182,7 @@ class MapCtrl implements IMapScope {
 ```
 Constructoren er også stedet vi udfører de ting der skal ske i forbindelse med at controlleren instantieres. I dette tilfælde henter vi legepladserne, og hvis der er valgt en specifik legeplads, så henter vi denne.
 
-Lig mærke til `$inject`. Dette statiske string array er nødvendigt, hvis vi ønsker at kunne [uglify](https://github.com/gruntjs/grunt-contrib-uglify) vores JS kode.
+Læg mærke til `$inject`. Dette statiske string array er nødvendigt, hvis vi ønsker at kunne [uglify](https://github.com/gruntjs/grunt-contrib-uglify) vores JS kode.
 
 Hvor det er en smule bøvlet at registere en service med [AngularJS](https://angularjs.org/) og [TypeScript](http://www.typescriptlang.org/), er det super simpelt med controllers. Her angiver vi blot vores klasse som controller function.
 
@@ -195,9 +195,9 @@ Fordelen ved at have sin controllers i [TypeScript](http://www.typescriptlang.or
 
 ### Directives
 
-Når vi laver directives laver vi det på samme måde som services og controllers. Vi laver det med klasser. Klassen vi implementere bør implementere `angular.IDirective`.
+Når vi laver directives laver vi det på samme måde som services og controllers. Vi laver det med klasser. Klassen vi implementerer bør benytte interfacet `angular.IDirective`.
 
-```java
+```javascript
 class MyRating implements angular.IDirective {
   public restrict = 'E';
   public templateUrl = 'scripts/common/directives/my-rating.tmpl.html';
@@ -216,13 +216,13 @@ class MyRating implements angular.IDirective {
 
 Som vi ser her, så kan de enkelte konfigurations properties blot defineres direkte på klassen.
 
-Det giver os muligheden for senere at nedarve fra denne klasse og lave en variant af vores directive. Jeg har ikke selv haft dette behov, men muligheden eksistere i hvert fald, når vi benytter klasser til vores directives.
+Det giver os muligheden for senere at nedarve fra denne klasse og lave en variant af vores directive. Jeg har ikke selv haft dette behov, men muligheden eksisterer i hvert fald, når vi benytter klasser til vores directives.
 
 Som det kan ses fra eksemplet er det selvfølgelig også muligt at benytte `bindToController` istedet for isolated `scope`, når man benytter [TypeScript](http://www.typescriptlang.org/).
 
-Lige som med services, er det lidt bøvlet at registere et directive der er lavet som klasse i angular. Det er dog den præcis metode, som med services.
+Ligesom med services, er det lidt bøvlet at registere et directive der er lavet som klasse i angular. Det er dog den præcis den metode, som med services.
 
-```java
+```javascript
 class MyRating implements angular.IDirective {
 
   ...
@@ -241,20 +241,20 @@ angular.module('playgrounds')
 
 ### Filters ###
 
-Selvom vi ikke implementere filtre som klasser, kan vi godt få glæde at [TypeScript](http://www.typescriptlang.org/)'s typer. Det er dog mest er ved udviklingen af filteret og ikke ved brug af filteret.
+Selvom vi ikke implementere filtre som klasser, kan vi godt få glæde at [TypeScript](http://www.typescriptlang.org/)'s typer. Mest ved udviklingen af filteret og ikke ved brug af filteret.
 
 I forbindelse med kurset skal kursisterne lave et `distance` filter. Dette filter skal vha. din position og legepladsens position beregne afstanden mellem de to. Lad os starte med at definere interfacet for denne operation:
 
-```java
+```javascript
 export interface IDistanceFilter {
   (position: ICoordinate): string|number;
 }
 ```
 
-Som vi kan se fra `IDistanceFilter` så beskriver interfacet én funktion som tager én parameter, som er af type `ICoordinate`. Filter funktionen returnere enten en string eller et nummer, som kan ses via `string|number`. Dette skyldes at hvis din position ikke er fastlagt, så kan distancen ikke beregnes, og der returneres i stedet for beskeden 'Ukendt'.
+Som vi kan se fra `IDistanceFilter` så beskriver interfacet én funktion som tager én parameter, som er af type `ICoordinate`. Filter funktionen returnerer enten en string eller et nummer, som kan ses via `string|number`. Dette skyldes at hvis din position ikke er fastlagt, så kan distancen ikke beregnes, og der returneres i stedet for beskeden 'Ukendt'.
 
-Næste skridt er at lave filteret der returnere filter funktionen, der implementere `IDistanceFilter`.
-```java
+Næste skridt er at lave filteret der returnerer filter funktionen, der implementerer `IDistanceFilter`.
+```javascript
 const distance = (location: ILocationService): IDistanceFilter => {
 
   let currentPosition: ICoordinate;
@@ -272,19 +272,19 @@ const distance = (location: ILocationService): IDistanceFilter => {
 };
 distance.$inject = ['location'];
 ```
-Vi opretter en `distance` funktion som tager en parameter: `location`. Parameteren bliver dependency injected af [AngularJS](https://angularjs.org/). Funktionen selv returnere en funktion der implementere vores `IDistanceFilter`.
+Vi opretter en `distance` funktion som tager en parameter: `location`. Parameteren bliver dependency injected af [AngularJS](https://angularjs.org/). Funktionen selv returnerer en funktion der implementerer vores `IDistanceFilter`.
 
 Sidst tilføjer vi vores `$inject` property, for at vores filter kan fungerer med [uglify](https://github.com/gruntjs/grunt-contrib-uglify).
 
 At registere vores filter med [AngularJS](https://angularjs.org/) er super simpelt:
 
-```java
+```javascript
 angular.module('playgrounds')
   .filter('distance', distance);
 ```
 Når vi benytter vores filter i en template får vi desværre ingen hjælp fra [Webstorm](https://www.jetbrains.com/webstorm/). Dvs. at der er ingen Code Completion etc. Dog giver vores typet interface os en fordel, hvis vi injecter vores filter i en controller, service eller directive. Eller når vi injecter den i vores test af filteret.
 
-```java
+```javascript
 beforeEach(inject((_humanizeDistanceFilter_: IHumanizeDistanceFilter) => {
   humanizer = _humanizeDistanceFilter_;
 }));
@@ -294,7 +294,7 @@ beforeEach(inject((_humanizeDistanceFilter_: IHumanizeDistanceFilter) => {
 
 I de eksempler vi har kigget på har vi primært benyttet vores egne typer. Men som i sikkert har bemærket har vi også benyttet andre typer. Eksemplvis `angular.IPromise<IPlayground[]>`. Hvor kommer denne type fra? I TypeScript kan man angive en reference til definitioner. Eks.:
 
-```java
+```javascript
 /// <reference path='../../bower_components/DefinitelyTyped/angularjs/angular.d.ts' />
 /// <reference path='../../bower_components/DefinitelyTyped/angularjs/angular-route.d.ts' />
 /// <reference path='../../bower_components/DefinitelyTyped/angularjs/angular-resource.d.ts' />
@@ -302,11 +302,11 @@ I de eksempler vi har kigget på har vi primært benyttet vores egne typer. Men 
 
 En almindelig måde at få disse referencer med i sit projekt er at oprette en fil der hedder `_all.ts`. Denne fil bør ikke indeholder andet end reference til 3. parts biblioteker. TypeScript compileren vil i forbindelse med compileringen af projektet benytte referencerne fra denne fil, så længe man husker at få filen med i sin compilering.
 
-Ovenstående typerne er alle hentet fra github projektet [DefinitelyTyped](http://definitelytyped.org/). Dette projekt indeholder definitioner af typer fra 1500+ JavaScript biblioteker, så tjek der først!
+Ovenstående typer er alle hentet fra github projektet [DefinitelyTyped](http://definitelytyped.org/). Dette projekt indeholder definitioner af typer fra 1500+ JavaScript biblioteker, så tjek der først!
 
-Men hvad nu hvis vi benytter et bibliotek der ikke findes i DefinitelyTyped? Så er det heldigvis relativt simpelt at tilføje vores egne definitioner. I vores case benytter vi et bibliotek der hedder [Geolib](https://github.com/manuelbieh/Geolib). Da der ikke findes en definition af dette bibliotek, kan vi heldigvis lave en selv:
+Men hvad nu hvis vi benytter et bibliotek der ikke findes i [DefinitelyTyped](http://definitelytyped.org/)? Så er det heldigvis relativt simpelt at tilføje vores egne definitioner. I vores case benytter vi et bibliotek der hedder [Geolib](https://github.com/manuelbieh/Geolib). Da der ikke findes en definition af dette bibliotek, kan vi heldigvis lave en selv:
 
-```java
+```javascript
 declare module geolib {
   function getDistance(coordinate1: playgrounds.common.model.ICoordinate, coordinate2: playgrounds.common.model.ICoordinate): number;
 }
@@ -316,7 +316,7 @@ Geolib tilbyder flere funktioner end denne ene, men vi har kun brug for denne en
 
 Erklæringer som disse gemmes med filtypen `.d.ts`. I dette eksempel får vi altså en fil der hedder `geolib.d.ts` som skal compileres sammen med resten af projektet. Dette giver også IDE hjælp og compiler type checking. Se eksempelvis i vores [`distance`](#filters) filter:
 
-```java
+```javascript
 return (position: ICoordinate): number|string => {
   if (currentPosition && position) {
     return geolib.getDistance(currentPosition, position);

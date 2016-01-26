@@ -2,6 +2,7 @@ module playgrounds.common.service {
 
   'use strict';
 
+  import ICoordinate = playgrounds.common.model.ICoordinate;
   import IPlayground = playgrounds.common.model.IPlayground;
 
   export interface IPlaygroundService {
@@ -10,7 +11,7 @@ module playgrounds.common.service {
   }
 
   class Playground implements IPlayground {
-    constructor(public id, public navn, public adresseBeskrivelse, public beskrivelse, public position) {
+    constructor(public id: string, public navn: string, public adresseBeskrivelse: string, public beskrivelse: string, public position: ICoordinate) {
     }
   }
 

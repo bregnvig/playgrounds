@@ -37,7 +37,8 @@ module.exports = function (grunt) {
         dest: '<%= yeoman.app %>/compiled/out.js',
         options: {
           target: 'es5',
-          sourceMap: true
+          sourceMap: true,
+          noImplicitAny: true
         }
       },
       test: {
@@ -56,7 +57,7 @@ module.exports = function (grunt) {
         tasks: ['wiredep']
       },
       ts: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.ts'],
+        files: ['<%= yeoman.app %>/scripts/**/*.ts'],
         tasks: ['typescript']
       },
       tsTest: {

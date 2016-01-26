@@ -48,7 +48,7 @@ module playgrounds.feature.map {
     public playgrounds: IPlayground[];
     public selectedPlayground: IPlayground;
     public markers: IMarker = {};
-    public playgroundCenter: ICoordinate = new MapCenter(new Coordinate(56.360029, 10.746635), 8);
+    public playgroundCenter: ICoordinate = new MapCenter(Coordinate.DENMARK_CENTER, 8);
 
     constructor(private $routeParams: IRouteParamsService, playgroundService: IPlaygroundService, location: ILocationService, public filterText: IFilterText) {
       playgroundService.playgrounds().then((playgrounds) => {

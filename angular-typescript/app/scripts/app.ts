@@ -16,7 +16,7 @@ angular
     'ngSanitize',
     'leaflet-directive'
   ])
-  .config(function ($routeProvider: angular.route.IRouteProvider) {
+  .config(($routeProvider: angular.route.IRouteProvider) => {
     $routeProvider
       .when('/', {
         controller: 'MapCtrl as mapCtrl',
@@ -34,3 +34,4 @@ angular
         redirectTo: '/'
       });
   });
+  

@@ -16,6 +16,9 @@ module playgrounds.common.service {
   }
 
   class PlaygroundService implements IPlaygroundService {
+
+    public static $inject = ['$http', 'location'];
+
     private promise: angular.IPromise<IPlayground[]>;
 
     constructor($http: angular.IHttpService, location: playgrounds.common.service.ILocationService) {
@@ -54,18 +57,9 @@ module playgrounds.common.service {
         }
       });
     }
-
-    public static factory() {
-      const service = ($http: angular.IHttpService, location: ILocationService) => {
-        return new PlaygroundService($http, location);
-      };
-      service.$inject = ['$http', 'location'];
-      return service;
-    }
-
   }
 
   angular.module('playgrounds')
-    .factory('playgroundService', PlaygroundService.factory());
+    .service('playgroundService', PlaygroundService);
 
 }

@@ -1,9 +1,10 @@
 # AngularJS med TypeScript
 
 ## Introduktion
+
 AngularJS er blevet populært hos mange danske virksomheder. En af de attraktive ting ved AngularJS er at man finder mange af de samme dyder i [AngularJS](https://angularjs.org/) som man finder i eksempelvis Java & C#.
 
-Man har “separation of concern” der klart definerer hvorledes ens applikation bør opsplittes. Vi har vores services til vores forretningslogik, vi har vores controllers til at dirigere sammenhængen med brugergrænsefladen og forretningslogikken. Vi har vores directives og filters til præsentation osv.
+Man har “separation of concerns” der klart definerer hvorledes ens applikation bør opsplittes. Vi har vores services til vores forretningslogik, vi har vores controllers til at dirigere sammenhængen med brugergrænsefladen og forretningslogikken. Vi har vores directives og filters til præsentation osv.
 
 Alt dette gør det nemmere for folk med erfaring i det klassiske MVC mønster at komme i gang. Samtidig får man delt sin kode op i mindre bidder, som dermed både er lettere at genbruge, men bestemt også lettere at teste.
 
@@ -11,9 +12,10 @@ Men én ting mangler stadigvæk. Typer! Løsningsmulighed: [TypeScript](http://w
 
 > TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.
 
-Så hvad får vi med typer? Helt konkret får vi klasser, interfaces, generics etc. Men hvorfor ønsker vi det? For det første får vi med typer et paradigme som rigtigt mange udviklere forstår. Vi får langt mere hjælp fra vores IDE, vi får mulighed for automatiseret og sikker refactoring, og så får vi en compiler der kan give os compile fejl fremfor runtime fejl. Altsammen gode ting, specielt i større projekter der lever længe,  med udviklere med forskelligt skillset.  
+Så hvad får vi med typer? Helt konkret får vi klasser, interfaces, generics etc. Men hvorfor ønsker vi det? For det første får vi med typer et paradigme som rigtigt mange udviklere forstår. Vi får langt mere hjælp fra vores IDE, vi får mulighed for automatiseret og sikker refactoring, og så får vi en compiler der kan give os compile fejl fremfor runtime fejl. Altsammen gode ting, specielt i større projekter der lever længe,  med udviklere med forskelligt skillset.
 
 ## Case - Legepladser
+
 I forbindelse med jeg har afholdt [AngularJS foundation](https://www.lundogbendsen.dk/undervisning/beskrivelse/LB1730/JS+-+AngularJS+-+Foundation;jsessionid=C8B2C9CCCEA83B5B27A05BFB76BDC4E3) kurser for Lund&Bendsen, har kursisterne skulle udvikle en lille applikation, som benytter sig af [Copenhagen Data](http://data.kk.dk/) til at vise en liste af legepladser i København.
 
 ![Playgrounds screenshot](assets/screenshot.png)
@@ -21,6 +23,7 @@ I forbindelse med jeg har afholdt [AngularJS foundation](https://www.lundogbends
 Applikationen er skrevet i ren Javascript med AngularJS. Men hvad kræver det at gå fra en type løs applikation til en applikation der benytter TypeScript? Lad os se på de forskellige dele.
 
 ### Modellen
+
 Der er umiddelbart to modeller i denne case. Der er modellen man får fra Copenhagen Data og så er der den interne model. Når vi benytter ren Javascript er modellen ikke defineret, mens vi med TypeScript kan og bør definere disse to modeller. Dette kan vi gøre vha. interfaces. Den interne legeplads er defineret således:
 
 ```javascript
@@ -40,7 +43,6 @@ export interface IPlayground {
 Dette interface fortæller at et legeplads objektet **skal** have `id`, `navn` og `position`. Legeplads objektet **kan** have `adresseBeskrivelse` og `beskrivelse`. Dette kan ses via `?` der står efter navnet. Hvad giver det af fordele?
 
 #### Compiling
-
 Hvis vi ved en fejl benytter `name` i stedet for `navn`, ville det være en fejl vi først ville finde på runtime når vi bruger Javascript. Benytter vi TypeScript får vi fejlen på compile time:
 
 ```
@@ -63,7 +65,6 @@ Uden `IPlayground` typen er vores IDE til stortset ingen hjælp:
 ![No Code Completion](assets/NoCodeCompletion.png)
 
 ### Service
-
 I vores case med legepladser skal kursisterne lave en service der henter legepladserne fra Copenhagen Data. Servicen har en metode der returnerer et promise, der når legepladserne er hentet, afleverer et array med `IPlayground`s.
 
 Med TypeScript skriver vi vores services som klasser. Og på samme måde som med vores model, opretter vi et interface der beskriver de funktioner vores service skal implementere. I denne case kommer interfacet til at se således ud:
@@ -117,9 +118,7 @@ Hvis vi kigger i vores IDE, kan man se at typen er kendt.
 
 I dette eksempel kender IDE'et returtypen `angular.IPromise<IPlayground[]>` fra vores `playgrounds()` funktion.
 
-
 ### Controller
-
 Når vi benytter TypeScript skriver vi vores controllers som klasser. Det er let at benytte controllerAs syntax sammen med TypeScript, hvilket også er den syntax jeg vil benytte i eksemplet. Eksemplet jeg vil vise er den controller der benyttes til at håndtere kortet og listen af legepladser.
 
 Vi starter med at definere de properties og funktioner som vores UI har brug for:
@@ -173,13 +172,12 @@ Hvor det er en smule bøvlet at registere en service med AngularJS og TypeScript
 
 ```javascript
 angular.module('playgrounds')
-  .controller('MapCtrl', MapCtrl);  
+  .controller('MapCtrl', MapCtrl);
 ```
 
 Fordelen ved at have sin controllers i TypeScript er at vi får compiler og IDE support under udviklingen af controlleren. Desværre kan IDE'et [Webstorm](https://www.jetbrains.com/webstorm/) endnu ikke hjælpe når vi først er i vores HTML templates.
 
 ### Directives
-
 Når vi laver directives laver vi det på samme måde som services og controllers. Vi laver det med klasser. Klassen vi implementerer bør benytte interfacet `angular.IDirective`.
 
 ```javascript
@@ -224,8 +222,7 @@ angular.module('playgrounds')
   .directive('myRating', MyRating.factory());
 ```
 
-### Filters ###
-
+### Filters
 Selvom vi ikke implementere filtre som klasser, kan vi godt få glæde at TypeScript's typer. Mest ved udviklingen af filteret og ikke ved brug af filteret.
 
 I forbindelse med kurset skal kursisterne lave et `distance` filter. Dette filter skal vha. din position og legepladsens position beregne afstanden mellem de to. Lad os starte med at definere interfacet for denne operation:
@@ -276,7 +273,6 @@ beforeEach(inject((_humanizeDistanceFilter_: IHumanizeDistanceFilter) => {
 ```
 
 ### 3. part biblioteker
-
 I de eksempler vi har kigget på har vi primært benyttet vores egne typer. Men som i sikkert har bemærket har vi også benyttet andre typer. Eksemplvis `angular.IPromise<IPlayground[]>`. Hvor kommer denne type fra? I TypeScript kan man angive en reference til definitioner. Eks.:
 
 ```javascript
@@ -287,7 +283,7 @@ I de eksempler vi har kigget på har vi primært benyttet vores egne typer. Men 
 
 En almindelig måde at få disse referencer med i sit projekt er at oprette en fil der hedder `_all.ts`. Denne fil bør ikke indeholder andet end reference til 3. parts biblioteker. TypeScript compileren vil i forbindelse med compileringen af projektet benytte referencerne fra denne fil, så længe man husker at få filen med i sin compilering.
 
-Ovenstående typer er alle hentet fra github projektet [DefinitelyTyped](http://definitelytyped.org/). Dette projekt indeholder definitioner af typer fra 1500+ JavaScript biblioteker, så tjek der først!
+Ovenstående typer er alle hentet fra github projektet [DefinitelyTyped](http://definitelytyped.org/). Dette projekt indeholder definitioner af typer fra 1.500+ JavaScript biblioteker, så tjek der først!
 
 Men hvad nu hvis vi benytter et bibliotek der ikke findes i [DefinitelyTyped](http://definitelytyped.org/)? Så er det heldigvis relativt simpelt at tilføje vores egne definitioner. I vores case benytter vi et bibliotek der hedder [Geolib](https://github.com/manuelbieh/Geolib). Da der ikke findes en definition af dette bibliotek, kan vi heldigvis lave en selv:
 
@@ -311,6 +307,7 @@ return (position: ICoordinate): number|string => {
 ```
 
 ## Opsummering
+
 ### Hvad er godt?
 Det er nemt at komme i gang. I virkeligheden kunne man nøjes med at omdøbe alle `.js` til `.ts`. Det ville ikke give os nogle af fordelene ved at have typer, men så er vi i gang.
 

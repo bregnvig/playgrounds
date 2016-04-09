@@ -1,0 +1,16 @@
+<sidebar class="menu">
+    <form>
+        <div class="input-group">
+            <div class="input-group-addon"><i class="fa fa-lg fa-search"></i></div>
+            <input type="text" class="form-control input-lg" id="filterPlaygrounds" placeholder="Filtrer legepladser" [(ngModel)]="filterText">
+        </div>
+    </form>
+    <div class="playgrounds-list">
+        <div class="list-group">
+            <a *ngFor="#playground of playgrounds" class="list-group-item clickable" [class.active]="playground === selectedPlayground" (click)="selectPlayground(playground)">
+                <h4 class="list-group-item-heading">{{playground.navn}}</h4>
+                <p class="list-group-item-text">{{playground.beskrivelse}}</p>
+            </a>
+        </div>
+    </div>
+</sidebar>

@@ -19,10 +19,10 @@ module playgrounds.common.service {
 
     public static $inject = ['$http', 'location'];
 
-    private promise: angular.IPromise<IPlayground[]>;
+    private _promise: angular.IPromise<IPlayground[]>;
 
     constructor($http: angular.IHttpService, location: playgrounds.common.service.ILocationService) {
-      this.promise = $http.get('http://data.kk.dk/dataset/legepladser/resource/79d60521-5748-4287-a875-6d0e23fac31e/proxy', {
+      this._promise = $http.get('http://data.kk.dk/dataset/legepladser/resource/79d60521-5748-4287-a875-6d0e23fac31e/proxy', {
         cache: true,
         transformResponse: (data, headersGetter, status): IPlayground[] => {
           if (status === 200) {
@@ -45,7 +45,7 @@ module playgrounds.common.service {
     }
 
     public playgrounds(): angular.IPromise<IPlayground[]> {
-      return this.promise;
+      return this._promise;
     }
 
     public find(id: string): angular.IPromise<IPlayground> {

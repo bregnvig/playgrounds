@@ -1,20 +1,39 @@
-import {Component} from 'angular2/core'
-import {SidebarComponent} from "./sidebar/sidebar";
+import {Component} from 'angular2/core';
+import {RouteConfig, ROUTER_DIRECTIVES} from "angular2/router";
+import {PlaygroundHomeComponent, PlaygroundMapComponent} from "./home/home.component";
 import {PlaygroundService} from "./services/playgrounds";
 import {HTTP_PROVIDERS} from "angular2/http";
-import {PlaygroundInfoBoxComponent} from "./footer/playground-info-box";
-import {IPlayground} from "./model/playground";
+import {LocationService} from "./services/location";
+import {RatingService} from "./services/rating.service";
+import {PlaygroundDetailsComponent} from "./details/details.component";
+import {ReviewService} from "./services/review.service";
 
 @Component({
   selector: 'playgrounds',
   template: `
-    <playground-sidebar (onSelected)="playground=$event"></playground-sidebar>
-    <playground-info-box [playground]="playground"></playground-info-box>
+      <router-outlet></router-outlet>
   `,
-  directives: [SidebarComponent, PlaygroundInfoBoxComponent],
-  providers: [PlaygroundService, HTTP_PROVIDERS]
+  directives: [ROUTER_DIRECTIVES],
+  providers: [HTTP_PROVIDERS, PlaygroundService, LocationService, RatingService, ReviewService],
 })
-
+@RouteConfig([
+  {
+    path: '/',
+    name: 'Home',
+    component: PlaygroundHomeComponent,
+    useAsDefault: true
+  },
+  {
+    path: '/playground/:id',
+    name: 'Playground',
+    component: PlaygroundMapComponent
+  },
+  {
+    path: '/details/:id',
+    name: 'Details',
+    component: PlaygroundDetailsComponent
+  },
+])
 export class AppComponent {
-  public playground:IPlayground;
 }
+

@@ -1,0 +1,26 @@
+<div class="pane pane-container vertical">
+    <section class="pane fixed-size pane-container details-top">
+        <form class="pane pane-container vertical pane-33 bg-primary" #reviewForm="ngForm">
+            <h3 class="text-center">Din vurdering!</h3>
+            <textarea class="form-control pane fixed-size" autofocus placeholder="Vurdering" required rows="4" [(ngModel)]="model.comment" ngControl="commentCtrl"></textarea>
+            <h1 class="text-center">
+                <rating (onChanged)="model.rating=$event"></rating>
+            </h1>
+            <review [message]="model.comment" [stars]="model.rating"></review>
+            <button class="btn btn-lg btn-block btn-default" [disabled]="!reviewForm.form.valid" (click)="createReview()"><strong>INDSEND</strong></button>
+        </form>
+        <section class="pane pane-container vertical ratings">
+        </section>
+    </section>
+    <section class="pane-2 pane-container vertical details-bottom">
+        <header class="pane fixed-size padding">
+            <h3>{{playground?.navn}} <span class="pull-right"><playground-rating [playground]="playground"></playground-rating></span></h3>
+        </header>
+        <div class="pane pane-container wrap ratings padding">
+            <div class="pane fixed-size rating" *ngFor="#review of reviews | async">
+                <review [message]="review.comment" [stars]="review.rating"></review>
+            </div>
+        </div>
+    </section>
+</div>
+<a class="back" [routerLink]="['Playground', {id: playground?.id}]"><i class="fa fa-3x fa-close"></i> </a>

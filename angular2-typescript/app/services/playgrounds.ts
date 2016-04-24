@@ -4,14 +4,15 @@ import IOpenData = OpenData.IOpenData;
 import {IPlayground} from "../model/playground";
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise'
+import {Observable} from "rxjs/Observable";
+import {BehaviorSubject} from "rxjs/Rx";
 
 @Injectable()
 export class PlaygroundService {
 
-  private _playgrounds: Promise<IPlayground[]>;
+  private _playgrounds: BehaviorSubject<IPlayground[]> = new BehaviorSubject(null);
 
   constructor(http: Http) {
-    this._playgrounds =
       http.get('http://data.kk.dk/dataset/legepladser/resource/79d60521-5748-4287-a875-6d0e23fac31e/proxy')
         .map(response => {
           const opendata: IOpenData = response.json();
@@ -27,11 +28,18 @@ export class PlaygroundService {
               }
             }
           })
-        }).toPromise();
+        })
+        .subscribe(playgrounds => this._playgrounds.next(playgrounds));
   }
 
-  public get playgrounds() {
+  public get playgrounds():Observable<IPlayground[]> {
     return this._playgrounds;
+  }
+
+  public find(id:string): Observable<IPlayground> {
+    return this.playgrounds
+      .map(playgrounds => playgrounds ? playgrounds.find((playground) => playground.id === id) : null)
+      .share();
   }
 
 

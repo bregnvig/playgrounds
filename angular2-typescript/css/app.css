@@ -126,6 +126,7 @@ section.relative{
 
 section.details-top form {
     padding: 16px;
+    margin: 0;
 }
 
 section.details-bottom header {
@@ -151,4 +152,8 @@ section.details-bottom header {
     position: fixed;
     top: 10px;
     right: 10px;
+}
+
+rating {
+    white-space: nowrap;
 }

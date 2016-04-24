@@ -4,3 +4,4 @@ angular-typescript/test/compiled
 angular-typescript/.vscode
 angular2-typescript/**/*.js*
 angular2-typescript/node_modules
+angular2-typescript/typings

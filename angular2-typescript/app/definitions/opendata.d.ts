@@ -1,4 +1,4 @@
-declare module OpenData {
+declare namespace OpenData {
 
   interface IOpenDataGeometry {
     coordinates: number[];

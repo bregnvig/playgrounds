@@ -5,7 +5,7 @@ import {IPlayground} from "../model/playground";
 import {PlaygroundRatingComponent} from "../footer/playground-rating";
 import {RatingComponent} from "../common/rating.component";
 import {ReviewComponent} from "./review.component";
-import {IReview, ReviewService} from "../services/review.service";
+import {IReview, ReviewServiceFactory, IReviewService} from "../services/review.service";
 import {Observable} from "rxjs/Observable";
 
 @Component({
@@ -16,23 +16,23 @@ import {Observable} from "rxjs/Observable";
 
 export class PlaygroundDetailsComponent implements OnInit {
 
+  public service: IReviewService;
   public playground: IPlayground;
   public model: IReview = {};
-  public reviews:Observable<IReview>;
+  public reviews: Observable<IReview>;
 
-  constructor(private _routeParams: RouteParams, private _playgroundService: PlaygroundService, private _reviewService:ReviewService) {
+  constructor(private _routeParams: RouteParams, private _playgroundService: PlaygroundService, private _reviewServiceFactory: ReviewServiceFactory) {
   }
 
   public
   ngOnInit() {
     this._playgroundService.find(this._routeParams.get('id')).subscribe(playground => this.playground = playground);
-    this.reviews = this._reviewService.getReviews(this._routeParams.get('id'));
+    this.service = this._reviewServiceFactory.newInstance(this._routeParams.get('id'));
   }
 
   public createReview() {
-    this._reviewService.createReview(this.playground.id, this.model)
-      .subscribe(ok => {
-        this.reviews = this._reviewService.getReviews(this._routeParams.get('id'));
+    this.service.create(this.model)
+      .subscribe(() => {
         this.model = {};
       });
   }

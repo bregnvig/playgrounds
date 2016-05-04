@@ -1,4 +1,3 @@
-import {Component, OnInit, Input, OnDestroy} from "angular2/core";
 import {IPlayground} from "../model/playground";
 import {PlaygroundService} from "../services/playgrounds";
 import {RouterLink} from "angular2/router";
@@ -6,6 +5,7 @@ import {DistancePipe, HumanizeDistancePipe} from "./distance";
 import {LocationService} from "../services/location";
 
 import {Control} from "angular2/common";
+import {Component, OnDestroy, OnInit, Input} from "angular2/core";
 
 @Component({
   selector: 'playground-sidebar',
@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .map(currentPosition => this._currentPosition = currentPosition)
       .merge(this._playgroundService.playgrounds.map(playgrounds => this._playgrounds = playgrounds))
       .subscribe(() => {
-        if (this._currentPosition && this._playgrounds) {
+        if (this._playgrounds && this._currentPosition && this._playgrounds) {
           this._playgrounds.sort((a, b) => geolib.getDistance(a.position, this._currentPosition) - geolib.getDistance(b.position, this._currentPosition));
         }
       });

@@ -8,10 +8,36 @@ export interface IReview {
   comment?: string;
 }
 
-@Injectable()
-export class ReviewService {
+export interface IReviewService {
+  reviews: Observable<IReview[]>;
+  create(review: IReview): Observable<boolean>
+}
 
-  static URL = 'https://ratr-2015.appspot.com/location/';
+class ReviewService implements IReviewService {
+
+  private _url: string;
+
+  constructor(id: string, private _http: Http, private _options: RequestOptions) {
+    this._url = `https://ratr-2015.appspot.com/location//${id}/rating`;
+  }
+
+  public get reviews(): Observable<IReview> {
+    return this._http.get(this._url, this._options)
+      .map(response => response.json());
+  }
+
+  public create(review: IReview): Observable<boolean> {
+    return this._http.post(this._url, JSON.stringify(review), this._options)
+      .map(response => response.ok);
+  }
+
+}
+
+
+@Injectable()
+export class ReviewServiceFactory {
+
+  static URL = '';
 
   private _options: RequestOptions;
 
@@ -21,14 +47,7 @@ export class ReviewService {
     this._options = new RequestOptions({headers});
   }
 
-  public getReviews(id: string): Observable<IReview> {
-    return this._http.get(ReviewService.URL + `/${id}/rating`, this._options)
-      .map(response => response.json());
+  public newInstance(id: string): IReviewService {
+    return new ReviewService(id, this._http, this._options);
   }
-
-  public createReview(id:string, review:IReview):Observable<boolean> {
-    return this._http.post(ReviewService.URL + `/${id}/rating`, JSON.stringify(review), this._options)
-      .map(response => response.ok);
-  }
-
 }

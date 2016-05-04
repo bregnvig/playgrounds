@@ -4,10 +4,11 @@ import {SidebarComponent} from "../sidebar/sidebar";
 import {IPlayground} from "../model/playground";
 import {RouteParams} from "angular2/router";
 import {PlaygroundService} from "../services/playgrounds";
+import {LeafletComponent} from "../map/map.component";
 
 @Component({
   templateUrl: 'app/home/home.tmpl.html',
-  directives: [SidebarComponent, PlaygroundInfoBoxComponent]
+  directives: [SidebarComponent, PlaygroundInfoBoxComponent, LeafletComponent]
 })
 
 export class PlaygroundHomeComponent {
@@ -20,6 +21,7 @@ export class PlaygroundHomeComponent {
 })
 export class PlaygroundMapComponent extends PlaygroundHomeComponent implements OnInit {
 
+  public defaultPosition = new L.LatLng(56.360029, 10.746635);
 
   constructor(private _routeParams:RouteParams, private _playgroundService:PlaygroundService) {
     super();

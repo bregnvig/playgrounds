@@ -23,8 +23,8 @@ export class PlaygroundService {
               'adresseBeskrivelse': openPlayground.properties.adressebeskrivelse,
               'beskrivelse': openPlayground.properties.beskrivelse,
               'position': {
-                'lat': openPlayground.geometry.coordinates[1],
-                'lng': openPlayground.geometry.coordinates[0]
+                'lat': openPlayground.geometry.coordinates[0][1],
+                'lng': openPlayground.geometry.coordinates[0][0]
               }
             }
           })

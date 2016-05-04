@@ -6,15 +6,15 @@ import {HTTP_PROVIDERS} from "angular2/http";
 import {LocationService} from "./services/location";
 import {RatingService} from "./services/rating.service";
 import {PlaygroundDetailsComponent} from "./details/details.component";
-import {ReviewService} from "./services/review.service";
+import {ReviewServiceFactory} from "./services/review.service";
 
 @Component({
   selector: 'playgrounds',
   template: `
-      <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
   `,
   directives: [ROUTER_DIRECTIVES],
-  providers: [HTTP_PROVIDERS, PlaygroundService, LocationService, RatingService, ReviewService],
+  providers: [HTTP_PROVIDERS, PlaygroundService, LocationService, RatingService, ReviewServiceFactory],
 })
 @RouteConfig([
   {

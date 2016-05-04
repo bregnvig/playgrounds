@@ -17,7 +17,7 @@
             <h3>{{playground?.navn}} <span class="pull-right"><playground-rating [playground]="playground"></playground-rating></span></h3>
         </header>
         <div class="pane pane-container wrap ratings padding">
-            <div class="pane fixed-size rating" *ngFor="#review of reviews | async">
+            <div class="pane fixed-size rating" *ngFor="#review of service.reviews | async">
                 <review [message]="review.comment" [stars]="review.rating"></review>
             </div>
         </div>

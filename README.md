@@ -31,9 +31,9 @@ All these things make a lot of sense, even more so when working on larger projec
 
 ## angular2 with typescript
 
-Using [angular](https://angular.io/) and [TypeScript](http://www.typescriptlang.org/) to create the playground application.
+Using [angular2](https://angular.io/) and [TypeScript](http://www.typescriptlang.org/) to create the playground application.
 
-This is the first release of the playgroud using angular2, so there might be some things that are not all that. I will update the application as I become more expirenced with the framework. Currently the release is based on beta-14, but it will shortly be updated to the release candidate.
+This is the first release of the playground application using angular2, so there might be some things that are not all that. I will update the application as I become more expirenced with the framework. Currently the release is based on beta-14, but it will shortly be updated to the release candidate.
 
 ## Swift
 

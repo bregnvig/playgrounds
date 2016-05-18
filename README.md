@@ -29,6 +29,12 @@ So what does TypeScript gives us? It gives us classes, interfaces, generics etc.
 
 All these things make a lot of sense, even more so when working on larger projects with a longer life expectancy and with developers with different skills sets.
 
+## angular2 with typescript
+
+Using [angular](https://angular.io/) and [TypeScript](http://www.typescriptlang.org/) to create the playground application.
+
+This is the first release of the playgroud using angular2, so there might be some things that are not all that. I will update the application as I become more expirenced with the framework. Currently the release is based on beta-14, but it will shortly be updated to the release candidate.
+
 ## Swift
 
 A mobile application doing the same thing. This time made using [swift](https://developer.apple.com/swift/)

@@ -10,7 +10,7 @@
             <a *ngFor="#playground of playgrounds" [routerLink]="['Playground', {id: playground.id}]" class="list-group-item clickable" [class.active]="playground === selectedPlayground">
                 <span class="badge">{{playground.position | distance | humanizeDistance}}</span>
                 <h4 class="list-group-item-heading">{{playground.navn}}</h4>
-                <p class="list-group-item-text">{{playground.beskrivelse}}</p>
+                <p class="list-group-item-text">{{playground.beskrivelse | defaultPlaceholder}}</p>
             </a>
         </div>
     </div>

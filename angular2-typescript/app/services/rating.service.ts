@@ -42,7 +42,7 @@ export class RatingService {
       .map(response => {
         return response.json()
       })
-      .catch((response: Response) => {
+      .catch(() => {
         return this.createRating(playground);
       });
   }

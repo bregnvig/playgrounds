@@ -16,14 +16,15 @@ export interface IReviewService {
 class ReviewService implements IReviewService {
 
   private _url: string;
+  private _reviews: Observable<IReview[]>;
 
   constructor(id: string, private _http: Http, private _options: RequestOptions) {
     this._url = `https://ratr-2015.appspot.com/location//${id}/rating`;
+    this._reviews = this._http.get(this._url, this._options).map(response => response.json());
   }
 
-  public get reviews(): Observable<IReview> {
-    return this._http.get(this._url, this._options)
-      .map(response => response.json());
+  public get reviews(): Observable<IReview[]> {
+    return this._reviews;
   }
 
   public create(review: IReview): Observable<boolean> {

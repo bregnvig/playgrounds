@@ -1,17 +1,18 @@
 import {IPlayground} from "../model/playground";
 import {PlaygroundService} from "../services/playgrounds";
 import {RouterLink} from "angular2/router";
-import {DistancePipe, HumanizeDistancePipe} from "./distance";
+import {DistancePipe, HumanizeDistancePipe} from "./sidebar-pipes";
 import {LocationService} from "../services/location";
 
 import {Control} from "angular2/common";
 import {Component, OnDestroy, OnInit, Input} from "angular2/core";
+import {DefaultPlaceholderPipe} from "./sidebar-pipes";
 
 @Component({
   selector: 'playground-sidebar',
   templateUrl: 'app/sidebar/sidebar.tmpl.html',
   directives: [RouterLink],
-  pipes: [DistancePipe, HumanizeDistancePipe]
+  pipes: [DistancePipe, HumanizeDistancePipe, DefaultPlaceholderPipe]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
 
@@ -19,6 +20,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   private _currentPosition: ICoordinate;
 
   public playgrounds: IPlayground[];
+  
   @Input('playground')
   public selectedPlayground: IPlayground;
   public filterControl = new Control();

@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from 'angular2/core'
-import {RatingComponent} from "../common/rating.component";
+import {RatingComponent} from "./rating.component";
 import {IRating, RatingService} from "../services/rating.service";
 
 @Component({
@@ -10,11 +10,12 @@ import {IRating, RatingService} from "../services/rating.service";
   directives: [RatingComponent],
 })
 
-export class PlaygroundRatingComponent implements OnInit{
+export class PlaygroundRatingComponent implements OnInit {
 
-  public rating:IRating;
+  public rating: IRating;
 
-  public constructor(private _ratingService:RatingService) { }
+  public constructor(private _ratingService: RatingService) {
+  }
 
   public ngOnInit() {
   }
@@ -22,11 +23,10 @@ export class PlaygroundRatingComponent implements OnInit{
   @Input()
   public set playground(value) {
     this.rating = null;
-    if (value) {
+    if(value) {
       this._ratingService.getById(value).subscribe(rating => this.rating = rating);
     }
   }
-
 
 
 }

@@ -3,6 +3,17 @@ import {LocationService} from "../services/location";
 import {ICoordinate} from "../model/playground";
 
 @Pipe({
+  name: 'defaultPlaceholder'
+})
+export class DefaultPlaceholderPipe implements  PipeTransform {
+
+  transform(value: any): any {
+    return value || 'Ingen beskrivelse';
+  }
+
+}
+
+@Pipe({
   name: 'distance',
   pure: false
 })

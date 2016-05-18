@@ -28,7 +28,7 @@ module playgrounds.common.service {
           if (status === 200) {
             const openData: OpenData.IOpenData = <OpenData.IOpenData> JSON.parse(data);
             return openData.features.map((openPlayground) => {
-              const position = new playgrounds.common.model.Coordinate(openPlayground.geometry.coordinates[1], openPlayground.geometry.coordinates[0]);
+              const position = new playgrounds.common.model.Coordinate(openPlayground.geometry.coordinates[0][1], openPlayground.geometry.coordinates[0][0]);
               const properties = openPlayground.properties;
               return new Playground(openPlayground.id, properties.navn, properties.adressebeskrivelse, properties.beskrivelse, position);
             });

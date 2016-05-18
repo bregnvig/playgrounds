@@ -1,7 +1,7 @@
 declare module OpenData {
 
   interface IOpenDataGeometry {
-    coordinates: number[];
+    coordinates: [number[]];
   }
 
   interface IOpenDataProperties {

@@ -19,8 +19,8 @@ angular.module('playgrounds')
                   'adresseBeskrivelse': openPlayground.properties.adressebeskrivelse,
                   'beskrivelse': openPlayground.properties.beskrivelse,
                   'position': {
-                    'latitude': openPlayground.geometry.coordinates[1],
-                    'longitude': openPlayground.geometry.coordinates[0]
+                    'latitude': openPlayground.geometry.coordinates[0][1],
+                    'longitude': openPlayground.geometry.coordinates[0][0]
                   }
                 };
               });

@@ -1,0 +1,16 @@
+<aside class="menu">
+  <div class="input-group">
+    <div class="input-group-addon"><i class="fa fa-lg fa-search"></i></div>
+    <input type="text" class="form-control input-lg" id="filterPlaygrounds" placeholder="Filtrer legepladser" [formControl]="filterControl"
+      autocomplete="off">
+  </div>
+  <div class="playgrounds-list">
+    <div class="list-group">
+      <a class="list-group-item" *ngFor="let playground of playgrounds" [routerLink]="['/playground', playground.id]" routerLinkActive="active">
+        <span class="badge">{{playground.position | distance | humanizeDistance}}</span>
+        <h4 class="list-group-item-heading">{{playground.name}}</h4>
+        <p class="list-group-item-text">{{playground.description | defaultDescription}}</p>
+      </a>
+    </div>
+  </div>
+</aside>

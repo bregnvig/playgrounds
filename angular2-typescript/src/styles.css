@@ -1,0 +1,168 @@
+/* You can add global styles to this file, and also import other style files */
+html, body {
+    height: 100%;
+}
+body {
+    background-color: lightgrey;
+}
+
+body > .pane-container {
+    height: 100%;
+}
+
+undefined {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    height: 100%;
+}
+
+.pane-container {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+}
+.pane-container.wrap {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.pane-container.vertical {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+.pane-container.center-content {
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+.pane.center-self {
+    align-self: center;
+    -webkit-align-self: center;
+}
+
+.pane-container.horizontal {
+    -webkit-flex-direction: row;
+    flex-direction: row;
+}
+
+.pane {
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+.pane-50 {
+    -webkit-flex: 1 1 50%;
+    flex: 1 1 50%;
+}
+
+.pane-33 {
+    -webkit-flex: 0 0 33%;
+    flex: 0 0 33%;
+}
+
+.pane.fixed-size {
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
+
+.menu {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+    background-color: #ffffff;
+    width: 250px;
+    border-radius: 6px;
+    box-shadow: 2px 2px 2px #808080;
+    overflow: auto;
+    z-index: 5;
+}
+
+.menu form {
+    margin-bottom: 0;
+}
+
+.playgrounds-list {
+    max-height: calc(100vh - 86px);
+    overflow: auto;
+}
+
+footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #FFF;
+    padding-left: 8px;
+    background-color:rgba(0, 0, 0, 0.5);
+}
+
+
+.pane-50.rating-info {
+}
+
+.pane.rating-info .header {
+    padding: 8px;
+}
+
+.padding {
+    padding: 16px;
+}
+
+form rating {
+    padding-top: 10px;
+}
+
+div.list-group {
+    margin-bottom: 0;
+}
+
+.input-group .form-control:last-child, .input-group-addon:first-child {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+section.relative{
+    position: relative;
+}
+
+section.details-top form {
+    padding: 16px;
+    margin: 0;
+}
+
+section.details-bottom header {
+    border-top: solid 1px darkgray;
+    border-bottom: solid 1px darkgray;
+    box-shadow: 0px 0px 1px #808080;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.pane-container.wrap.ratings {
+    overflow: auto;
+    align-content: flex-start;
+}
+.pane-container.wrap.ratings .rating {
+    width: 330px;
+    padding: 0px 0px 0px 16px;
+}
+
+.back {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+rating {
+    white-space: nowrap;
+}

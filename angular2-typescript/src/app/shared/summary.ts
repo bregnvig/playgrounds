@@ -6,5 +6,5 @@ export interface Summary {
   averageRating?: number;
 
   getRatings(): Observable<Rating[]>;
-  addRating(rating: Rating): Observable<void>;
+  addRating(rating: Rating): void;
 }

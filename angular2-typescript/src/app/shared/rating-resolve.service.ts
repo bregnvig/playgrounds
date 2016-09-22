@@ -3,8 +3,10 @@ import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Summary, Rating, PlaygroundService, Coordinate, Playground } from './';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/mergeMap';
+import { Subject, Observable } from 'rxjs';
+import 'rxjs/operator/map';
 
 interface IRatrSummary {
   identifier: number;
@@ -17,19 +19,32 @@ const OPTIONS = new RequestOptions({headers: new Headers({'Content-Type': 'appli
 
 class HttpSummary implements Summary {
 
-  private ratingStream: Observable<Rating[]>;
+  private $add = new Subject<Rating>();
+  private $request: Observable<Rating[]>;
 
   constructor(private http: Http, private id: number, public position: Coordinate, public averageRating: number) {
-    this.ratingStream = this.http.get(`${environment.ratingURL}/location/${this.id}/rating`)
-      .map(response => <Rating[]> response.json());
+
+    this.$request = this.$add.asObservable()
+      .startWith(null)
+      .mergeMap(rating => {
+        if (rating) {
+          return this.http.post(`${environment.ratingURL}/location/${this.id}/rating`, rating, OPTIONS)
+            .mergeMap(() => this.http.get(`${environment.ratingURL}/location/${id}`))
+            .map(response => response.json())
+            .map(summary => this.averageRating = summary.averageRating);
+        }
+        return Observable.of(Observable.empty());
+      })
+      .mergeMap(() => this.http.get(`${environment.ratingURL}/location/${this.id}/rating`))
+      .map(response => response.json());
   }
 
   getRatings(): Observable <Rating[]> {
-    return this.ratingStream;
+    return this.$request;
   }
 
-  addRating(rating: Rating): Observable < void > {
-    return undefined;
+  addRating(rating: Rating): void {
+    this.$add.next(rating);
   }
 
 }

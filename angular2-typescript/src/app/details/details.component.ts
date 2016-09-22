@@ -40,9 +40,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  public createRating(comment: Rating) {
-    comment.rating = this.rating;
-    console.log('Rating', comment);
+  public createRating(rating: Rating) {
+    rating.rating = this.rating;
+    this.summary.addRating(rating);
   }
 
 }

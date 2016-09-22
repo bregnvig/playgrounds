@@ -115,6 +115,10 @@ form rating {
     padding-top: 10px;
 }
 
+form h1 {
+    margin: 20px 0;
+}
+
 div.list-group {
     margin-bottom: 0;
 }

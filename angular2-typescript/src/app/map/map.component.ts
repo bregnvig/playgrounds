@@ -22,7 +22,6 @@ export class MapComponent implements OnInit {
   private sidebar: SidebarComponent;
 
   constructor(private locationService: LocationService) {
-
   }
 
   ngOnInit() {

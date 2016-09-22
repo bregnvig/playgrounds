@@ -1,0 +1,25 @@
+<div class="pane pane-container vertical">
+    <section class="pane-container pane-50 details-top">
+        <form class="pane-container vertical pane-33 bg-primary" #reviewForm="ngForm" (ngSubmit)="createRating(reviewForm.value)">
+            <h3 class="pane fixed-size text-center">Din vurdering!</h3>
+            <textarea class="form-control pane fixed-size" autofocus placeholder="Vurdering" #comment2 #comment="ngModel" ngModel name="comment" minlength="5" required rows="4"></textarea>
+            <h1 class="text-center">
+                <app-rating (onChange)="rating = $event"></app-rating>
+            </h1>
+            <app-review [rating]="rating" [comment]="comment.value" ></app-review>
+            <button class="btn btn-lg btn-block btn-default pane fixed-size" type="submit" [disabled]="reviewForm.form.invalid || !rating"><strong>INDSEND</strong></button>
+        </form>
+        <leaflet #leaflet class="pane"></leaflet>
+    </section>
+    <section class="pane-50 pane-container vertical details-bottom">
+        <header class="pane fixed-size padding">
+            <h3>{{playground?.name}} <span class="pull-right"><app-rating [rating]="summary.averageRating"></app-rating></span></h3>
+        </header>
+        <div class="pane pane-container wrap ratings padding">
+            <div class="pane fixed-size rating" *ngFor="let rating of summary.getRatings() | async">
+                <app-review [rating]="rating.rating" [comment]="rating.comment" ></app-review>
+            </div>
+        </div>
+    </section>
+</div>
+<a *ngIf="playground" class="back" [routerLink]="['/playground', playground.id]"><i class="fa fa-3x fa-close"></i> </a>

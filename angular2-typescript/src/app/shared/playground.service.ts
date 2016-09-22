@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
@@ -14,6 +14,7 @@ interface IOpenDataGeometry {
 }
 
 interface IOpenDataProperties {
+  id: number;
   navn: string;
   adressebeskrivelse: string;
   beskrivelse: string;
@@ -40,7 +41,7 @@ export class PlaygroundService {
         const opendata: IOpenData = response.json();
         return opendata.features.map(openPlayground => {
           return {
-            'id': openPlayground.id,
+            'id': openPlayground.properties.id,
             'name': openPlayground.properties.navn,
             'addressDescription': openPlayground.properties.adressebeskrivelse,
             'description': openPlayground.properties.beskrivelse,
@@ -64,6 +65,9 @@ export class PlaygroundService {
   }
 
   public find(id: string): Observable<Playground> {
-    return this._requestStream.map(playgrounds => playgrounds.find(playground => playground.id === id));
+    return this._requestStream.map(playgrounds => {
+      const result = playgrounds.filter(playground => playground.id === +id);
+      return result.length ? result[0] : null;
+    });
   }
 }

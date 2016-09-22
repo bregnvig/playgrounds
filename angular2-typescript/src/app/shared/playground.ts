@@ -1,7 +1,7 @@
 import { Coordinate } from './coordinate';
 
 export interface Playground {
-  id: string;
+  id: number;
   name: string;
   addressDescription?: string;
   description?: string;

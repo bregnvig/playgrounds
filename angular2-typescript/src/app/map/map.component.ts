@@ -1,17 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
-
-
 import { SidebarComponent } from '../sidebar';
-import { Playground, LocationService  } from '../shared';
+import { Playground, LocationService } from '../shared';
 import { Marker, Center } from '../leaflet';
 
 /* tslint:disable:component-selector-name */
 @Component({
-  selector: 'app-map.pane',
+  selector: 'app-map',
   templateUrl: 'map.component.html',
   styleUrls: ['map.component.css']
 })

@@ -1,0 +1,7 @@
+<div class="alert alert-info" role="alert">
+  <p *ngIf="comment">{{comment}}</p>
+  <p *ngIf="!comment"><i>Vurdering</i></p>
+  <p>
+    <app-rating [readonly]="true" [rating]="rating"></app-rating>
+  </p>
+</div>

@@ -1,5 +1,5 @@
 <footer *ngIf="playground">
-  <h3 [routerLink]="['/details', playground.id]" class="clickable">{{playground.name}}<app-rating [readonly]="true" [rating]="5"></app-rating></h3>
+  <h3 [routerLink]="['/details', playground.id]" class="clickable">{{playground.name}} <app-rating [readonly]="true" [rating]="summary?.averageRating"></app-rating></h3>
   <p>{{playground.addressDescription}}</p>
   <p>{{playground.description}}</p>
 </footer>

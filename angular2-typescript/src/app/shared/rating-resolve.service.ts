@@ -27,16 +27,16 @@ class HttpSummary implements Summary {
     this.$request = this.$add.asObservable()
       .startWith(null)
       .mergeMap(rating => {
-        if (rating) {
-          return this.http.post(`${environment.ratingURL}/location/${this.id}/rating`, rating, OPTIONS)
+        return (rating ?
+          this.http.post(`${environment.ratingURL}/location/${this.id}/rating`, rating, OPTIONS)
             .mergeMap(() => this.http.get(`${environment.ratingURL}/location/${id}`))
             .map(response => response.json())
-            .map(summary => this.averageRating = summary.averageRating);
-        }
-        return Observable.of(Observable.empty());
+            .map(summary => this.averageRating = summary.averageRating)
+          : Observable.of(Observable.empty()));
       })
       .mergeMap(() => this.http.get(`${environment.ratingURL}/location/${this.id}/rating`))
-      .map(response => response.json());
+      .map(response => response.json())
+      .share();
   }
 
   getRatings(): Observable <Rating[]> {
@@ -66,7 +66,7 @@ export class RatingResolveService implements Resolve<Summary> {
               lat: playground.position.lat,
               lng: playground.position.lng,
             };
-            return this.http.post(`${environment.ratingURL}/location`, payload, OPTIONS)
+            return this.http.post(`${environment.ratingURL}/location`, payload, OPTIONS);
           })
           .mergeMap(() => this.http.get(`${environment.ratingURL}/location/${id}`))
           .catch(() => {

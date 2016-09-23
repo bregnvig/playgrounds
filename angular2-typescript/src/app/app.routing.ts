@@ -10,7 +10,10 @@ const routes: Routes = [
   },
   {
     path: 'playground/:id',
-    component: MapComponent
+    component: MapComponent,
+    resolve: {
+      summary: RatingResolveService
+    },
   },
   {
     path: 'details/:id',

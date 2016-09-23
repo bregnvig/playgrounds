@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
 import { SidebarComponent } from '../sidebar';
-import { Playground, LocationService } from '../shared';
+import { Playground, LocationService, Coordinate } from '../shared';
 import { Marker, Center } from '../leaflet';
 
 /* tslint:disable:component-selector-name */
@@ -25,12 +25,19 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.locationService.current.subscribe(location => {
-      console.log('Obtained location', location);
-    });
+    this.locationService.current
+      .catch(error => {
+        console.warn('Unable to obtain position', error);
+        return Observable.empty();
+      })
+      .subscribe(location => {
+        console.log('Obtained location', location);
+      });
     const playgroundSelected = this.sidebar.playgroundSelected.map(playground => new Marker('playground', playground.position.lat, playground.position.lng, playground.name));
     this.markers = this.locationService.current
-      .map(coordinate => new Marker('me', coordinate.lat, coordinate.lng, 'Her er jeg'))
+      .catch(() => Observable.empty())
+      .filter(coordinate => !!coordinate)
+      .map((coordinate: Coordinate) => new Marker('me', coordinate.lat, coordinate.lng, 'Her er jeg'))
       .merge(playgroundSelected);
   }
 

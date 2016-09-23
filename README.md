@@ -7,6 +7,13 @@ Selecting the playground will show the position on the map and a summary of this
 
 ![Playgrounds screenshot](screenshot.png)
 
+## angular2 with typescript
+
+Using [angular2](https://angular.io/) and [TypeScript](http://www.typescriptlang.org/) to create the playground application.
+
+The application has been updated to Angular 2 Final Release. The application has been created using Angular CLI beta 15. No deprecated APIs are being used. The application uses CommonModule, HttpModule, RouterModule, FormsModule, ReactiveFormsModule.
+
+Feedback would be appreciated! 
 
 
 ## angular-with-scope
@@ -28,12 +35,6 @@ Using [TypeScript](http://www.typescriptlang.org/) to create the playground appl
 So what does TypeScript gives us? It gives us classes, interfaces, generics etc. And why would we want that? First of all classes, interfaces etc is a way of working that many developers get. We also get a lot more help form the IDE, automated and secure refactoring and then we get a compiler that gives us compile time errors instead of runtime errors.
 
 All these things make a lot of sense, even more so when working on larger projects with a longer life expectancy and with developers with different skills sets.
-
-## angular2 with typescript
-
-Using [angular2](https://angular.io/) and [TypeScript](http://www.typescriptlang.org/) to create the playground application.
-
-This is the first release of the playground application using angular2, so there might be some things that are not all that. I will update the application as I become more expirenced with the framework. Currently the release is based on beta-14, but it will shortly be updated to the release candidate.
 
 ## Swift
 

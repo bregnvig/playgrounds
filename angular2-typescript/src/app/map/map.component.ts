@@ -1,10 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/merge';
 import { SidebarComponent } from '../sidebar';
-import { Playground, LocationService, Coordinate } from '../shared';
+import { Playground, LocationService, Coordinate, Summary } from '../shared';
 import { Marker, Center } from '../leaflet';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+
+interface ResolvedData {
+  summary: Summary;
+  playground: Playground;
+}
 
 /* tslint:disable:component-selector-name */
 @Component({
@@ -12,16 +19,16 @@ import { Marker, Center } from '../leaflet';
   templateUrl: 'map.component.html',
   styleUrls: ['map.component.css']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnDestroy {
 
   public playground: Playground;
+  public summary: Summary;
   public markers: Observable<Marker>;
   public center: Center = new Center(56.360029, 10.746635);
 
-  @ViewChild(SidebarComponent)
-  private sidebar: SidebarComponent;
+  private subscription: Subscription;
 
-  constructor(private locationService: LocationService) {
+  constructor(private locationService: LocationService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -33,12 +40,29 @@ export class MapComponent implements OnInit {
       .subscribe(location => {
         console.log('Obtained location', location);
       });
-    const playgroundSelected = this.sidebar.playgroundSelected.map(playground => new Marker('playground', playground.position.lat, playground.position.lng, playground.name));
+    this.subscription = this.route.data.subscribe((data: ResolvedData) => {
+      this.summary = data.summary;
+      this.playground = data.playground;
+      if (data.playground) {
+        this.center = new Center(data.playground.position.lat, data.playground.position.lng, 16);
+      }
+    });
+
+    const playgroundSelected = this.route.data
+      .map((data: ResolvedData) => data.playground)
+      .filter(playground => !!playground)
+      .map((playground: Playground) => new Marker('playground', playground.position.lat, playground.position.lng, playground.name));
     this.markers = this.locationService.current
       .catch(() => Observable.empty())
       .filter(coordinate => !!coordinate)
       .map((coordinate: Coordinate) => new Marker('me', coordinate.lat, coordinate.lng, 'Her er jeg'))
       .merge(playgroundSelected);
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   public playgroundSelected(playground: Playground): void {

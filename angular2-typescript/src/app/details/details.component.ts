@@ -33,7 +33,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.leaflet.center = new Center(playground.position.lat, playground.position.lng, 17);
         this.leaflet.markers = Observable.of(new Marker('playground', playground.position.lat, playground.position.lng));
       }));
-    this.subscriptions.push(this.route.data.subscribe((data: {summary: Summary}) => this.summary = data.summary));
+    this.subscriptions.push(this.route.data.subscribe((data: {summary: Summary}) => {
+      console.log('Summary ', data);
+      this.summary = data.summary;
+    }));
   }
 
   ngOnDestroy() {

@@ -13,7 +13,7 @@
     </section>
     <section class="pane-50 pane-container vertical details-bottom">
         <header class="pane fixed-size padding">
-            <h3>{{playground?.name}} <span class="pull-right"><app-rating [rating]="summary.averageRating"></app-rating></span></h3>
+            <h3>{{playground?.name}} <span class="pull-right"><app-rating [rating]="summary?.averageRating"></app-rating></span></h3>
         </header>
         <div class="pane pane-container wrap ratings padding">
             <div class="pane fixed-size rating" *ngFor="let rating of summary.getRatings() | async">

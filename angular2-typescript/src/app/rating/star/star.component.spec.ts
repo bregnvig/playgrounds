@@ -16,7 +16,7 @@ describe('Component: Star', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('should give fa-star, when the rating is equal to or above expected rating', () => {
+  it('should give fa-star, when the score is equal to or above expected score', () => {
     const fixture = TestBed.createComponent(StarComponent);
     const component = fixture.componentInstance;
 

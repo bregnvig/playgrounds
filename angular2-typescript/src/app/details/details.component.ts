@@ -15,7 +15,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   public playground: Playground;
   public summary: Summary;
-  public rating: number;
+  public score: number;
 
   private subscriptions: Subscription[] = [];
 
@@ -25,17 +25,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscriptions.push(this.route.params
-      .map((data: {id: string}) => data.id)
-      .mergeMap(id => this.playgroundService.find(id))
-      .subscribe((playground: Playground) => {
-        this.playground = playground;
-        this.leaflet.center = new Center(playground.position.lat, playground.position.lng, 17);
-        this.leaflet.markers = Observable.of(new Marker('playground', playground.position.lat, playground.position.lng));
-      }));
-    this.subscriptions.push(this.route.data.subscribe((data: {summary: Summary}) => {
-      console.log('Summary ', data);
+    this.subscriptions.push(this.route.data.subscribe((data: {summary: Summary, playground: Playground}) => {
       this.summary = data.summary;
+      this.playground = data.playground;
+      this.leaflet.center = new Center(this.playground.position.lat, this.playground.position.lng, 17);
+      this.leaflet.markers = Observable.of(new Marker('playground', this.playground.position.lat, this.playground.position.lng));
     }));
   }
 
@@ -44,7 +38,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   public createRating(rating: Rating) {
-    rating.rating = this.rating;
+    rating.rating = this.score;
     this.summary.addRating(rating);
   }
 

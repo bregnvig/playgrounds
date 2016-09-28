@@ -1,0 +1,5 @@
+<div class="pane pane-container wrap ratings padding">
+  <div class="pane fixed-size rating" *ngFor="let rating of summary.getRatings() | async">
+    <app-review [rating]="rating.rating" [comment]="rating.comment" ></app-review>
+  </div>
+</div>

@@ -15,13 +15,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   public playground: Playground;
   public summary: Summary;
-  public score: number;
 
   private subscriptions: Subscription[] = [];
 
   @ViewChild(LeafletComponent) private leaflet: LeafletComponent;
 
-  constructor(private playgroundService: PlaygroundService, private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -36,10 +35,4 @@ export class DetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
-
-  public createRating(rating: Rating) {
-    rating.rating = this.score;
-    this.summary.addRating(rating);
-  }
-
 }

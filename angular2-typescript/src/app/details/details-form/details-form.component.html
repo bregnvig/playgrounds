@@ -1,0 +1,9 @@
+<form class="pane pane-container vertical bg-primary" #reviewForm="ngForm" (ngSubmit)="createRating(reviewForm.value); reviewForm.reset(); rating = 0;">
+  <h3 class="pane fixed-size text-center">Din vurdering!</h3>
+  <textarea class="form-control pane fixed-size" autofocus placeholder="Vurdering" #comment2 #comment="ngModel" ngModel name="comment" minlength="5" required rows="4"></textarea>
+  <h1 class="text-center">
+    <app-rating (onChange)="score = $event" [rating]="score"></app-rating>
+  </h1>
+  <app-review class="pane" [rating]="score" [comment]="comment.value" ></app-review>
+  <button class="btn btn-lg btn-block btn-default pane fixed-size" type="submit" [disabled]="reviewForm.form.invalid || !rating"><strong>INDSEND</strong></button>
+</form>

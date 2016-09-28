@@ -5,6 +5,8 @@ import { routing } from './details.routing';
 import { LeafletModule } from '../leaflet';
 import { FormsModule } from '@angular/forms';
 import { ReviewModule } from '../rating/review.module';
+import { ReviewsComponent } from './reviews/reviews.component';
+import { DetailsFormComponent } from './details-form/details-form.component';
 
 @NgModule({
   imports: [
@@ -14,7 +16,11 @@ import { ReviewModule } from '../rating/review.module';
     routing,
     LeafletModule,
   ],
-  declarations: [DetailsComponent]
+  declarations: [
+    DetailsComponent,
+    ReviewsComponent,
+    DetailsFormComponent,
+  ]
 })
 export default class DetailsModule {
 }

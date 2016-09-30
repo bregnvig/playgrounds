@@ -35,8 +35,8 @@ export class LeafletComponent implements AfterViewInit, OnDestroy {
 
   constructor() {
     this.baseMaps = {
-      OpenStreetMap: new TileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      OpenStreetMap: new TileLayer('///{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       })
     };
   }
@@ -116,7 +116,4 @@ export class LeafletComponent implements AfterViewInit, OnDestroy {
       this._namedMarkers[name] = undefined;
     }
   }
-
-
-
 }

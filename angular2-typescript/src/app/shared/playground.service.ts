@@ -8,6 +8,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/publishLast';
 
 import { Playground } from './playground';
+import { environment } from '../../environments/environment';
 
 interface IOpenDataGeometry {
   coordinates: [number[]];
@@ -36,7 +37,7 @@ export class PlaygroundService {
   private _requestStream: Observable<Playground[]>;
 
   constructor(private http: Http) {
-    this._requestStream = this.http.get('http://data.kk.dk/dataset/legepladser/resource/79d60521-5748-4287-a875-6d0e23fac31e/proxy')
+    this._requestStream = this.http.get(environment.playgroundURL)
       .map(response => {
         const opendata: IOpenData = response.json();
         return opendata.features.map(openPlayground => {

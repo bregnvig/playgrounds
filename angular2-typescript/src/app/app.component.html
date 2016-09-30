@@ -1,1 +1,6 @@
 <router-outlet></router-outlet>
+<div class="pane-container progress" *ngIf="slowChangingRoute">
+    <div class="pane pane-container center-content">
+        <i class="pane fixed-size center-self fa fa-gear fa-3x fa-spin"></i>
+    </div>
+</div>

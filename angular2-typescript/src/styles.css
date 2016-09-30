@@ -2,6 +2,7 @@
 html, body {
     height: 100%;
 }
+
 body {
     background-color: lightgrey;
 }
@@ -24,6 +25,7 @@ undefined {
     -webkit-flex-wrap: nowrap;
     flex-wrap: nowrap;
 }
+
 .pane-container.wrap {
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
@@ -38,6 +40,7 @@ undefined {
     -webkit-justify-content: center;
     justify-content: center;
 }
+
 .pane.center-self {
     align-self: center;
     -webkit-align-self: center;
@@ -52,6 +55,7 @@ undefined {
     -webkit-flex: 1 1 auto;
     flex: 1 1 auto;
 }
+
 .pane-50 {
     -webkit-flex: 0 0 50%;
     flex: 0 0 50%;
@@ -96,9 +100,8 @@ footer {
     left: 0;
     color: #FFF;
     padding-left: 8px;
-    background-color:rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
-
 
 .pane-50.rating-info {
 }
@@ -133,7 +136,7 @@ div.list-group {
     border-top-right-radius: 0px;
 }
 
-section.relative{
+section.relative {
     position: relative;
 }
 
@@ -156,6 +159,7 @@ section.details-bottom header {
     overflow: auto;
     align-content: flex-start;
 }
+
 .pane-container.wrap.ratings .rating {
     width: 330px;
     padding: 0px 0px 0px 16px;
@@ -169,4 +173,12 @@ section.details-bottom header {
 
 rating {
     white-space: nowrap;
+}
+
+div.progress {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
 }

@@ -18,6 +18,10 @@ const routes: Routes = [
     },
   },
   {
+    path: 'details',
+    loadChildren: 'app/details/details.module',
+  },
+  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'

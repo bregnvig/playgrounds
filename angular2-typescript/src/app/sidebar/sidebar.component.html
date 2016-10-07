@@ -1,4 +1,8 @@
 <aside class="menu">
+    <div class="input-group">
+        <div class="input-group-addon"><i class="fa fa-lg fa-search"></i></div>
+        <input type="text" class="form-control input-lg" id="filterPlaygrounds" placeholder="Filtrer legepladser" autocomplete="off" [formControl]="filterControl">
+    </div>
     <div class="playgrounds-list">
         <div class="list-group">
             <a class="list-group-item" [routerLink]="['/playground', playground.id]" routerLinkActive="active" *ngFor="let playground of playgrounds$ | async">
@@ -6,7 +10,6 @@
                 <h4 class="list-group-item-heading">{{playground.name}}</h4>
                 <p class="list-group-item-text">{{playground.description}}</p>
             </a>
-            <span *ngIf="!playgrounds" class="list-group-item text-center"><i class="fa fa-circle-o-notch fa-spin fa-2x"></i></span>
         </div>
     </div>
 </aside>

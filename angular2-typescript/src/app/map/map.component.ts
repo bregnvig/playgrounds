@@ -45,7 +45,9 @@ export class MapComponent implements OnInit, OnDestroy {
         this.summary = data.summary;
         this.center = new Center(data.playground.position.lat, data.playground.position.lng, 16);
       })
-      .map((data: ResolvedData) => new Marker('playground', data.playground.position.lat, data.playground.position.lng));
+      .map((data: ResolvedData) => data.playground)
+      .filter(playground => !!playground)
+      .map(playground => new Marker('playground', playground.position.lat, playground.position.lng));
     this.markers$ = this.locationService.current
       .map(position => new Marker('me', position.lat, position.lng))
       .merge(playground$);

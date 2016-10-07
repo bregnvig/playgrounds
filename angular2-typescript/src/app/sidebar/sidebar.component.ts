@@ -29,19 +29,20 @@ export class SidebarComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     console.log('SidebarComponent is being initialized');
 
-    const $filter = this.filterControl
+    const filter$ = this.filterControl
       .valueChanges
       .startWith('')
       .debounceTime(200)
       .distinctUntilChanged()
-      .combineLatest(this.playgroundService.getPlaygrounds(), (text, playgrounds) => {
-        return playgrounds.filter((playground: Playground) => playground.name.toLowerCase().indexOf(text.toLowerCase()) !== -1);
-      });
-    Observable.combineLatest($filter, this.locationService.current, (playgrounds, location) => {
+      .map(text => text.toLocaleLowerCase())
+      .combineLatest(this.playgroundService.getPlaygrounds(), (text, playgrounds) =>
+        playgrounds.filter((playground: Playground) => playground.name.toLocaleLowerCase().includes(text))
+      );
+    Observable.combineLatest(filter$, this.locationService.current.startWith(null), (playgrounds, location) => {
       const l = this.locationService;
-      return playgrounds.sort((a: Playground, b: Playground) => l.getDistance(a.position, location) - l.getDistance(b.position, location));
+      return location ? playgrounds.sort((a: Playground, b: Playground) => l.getDistance(a.position, location) - l.getDistance(b.position, location)) : playgrounds;
     })
-      .catch(error => $filter)
+      .catch(error => filter$)
       .subscribe(playgrounds => this.playgrounds = playgrounds);
   }
 

@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LeafletModule } from './leaflet';
-import { SidebarComponent } from './sidebar';
 import { FooterComponent } from './footer';
 import { MapComponent } from './map';
 import { routing } from './app.routing';

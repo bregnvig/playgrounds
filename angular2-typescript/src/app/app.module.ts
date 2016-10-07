@@ -22,7 +22,6 @@ import { ReviewModule } from './rating/review.module';
   declarations: [
     AppComponent,
     MapComponent,
-    SidebarComponent,
     FooterComponent,
   ],
   bootstrap: [AppComponent],

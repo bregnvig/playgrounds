@@ -10,10 +10,10 @@ import { Coordinate } from './coordinate';
 @Injectable()
 export class LocationService {
 
-  private locationStream: Observable<Coordinate>;
+  private locationStream$: Observable<Coordinate>;
 
   constructor() {
-    this.locationStream = Observable
+    this.locationStream$ = Observable
       .create(observer => {
         const watchId = window.navigator.geolocation.watchPosition(position => {
           observer.next(position);
@@ -31,7 +31,7 @@ export class LocationService {
   }
 
   public get current(): Observable<Coordinate> {
-    return this.locationStream;
+    return this.locationStream$;
   }
 
   public getDistance(p1: Coordinate, p2: Coordinate) {

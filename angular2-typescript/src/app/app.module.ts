@@ -8,6 +8,7 @@ import { MapComponent } from './map';
 import { routing } from './app.routing';
 import SharedModule from './shared/shared.module';
 import { ReviewModule } from './rating/review.module';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { ReviewModule } from './rating/review.module';
     AppComponent,
     MapComponent,
     FooterComponent,
+    SidebarComponent,
   ],
   bootstrap: [AppComponent],
 })

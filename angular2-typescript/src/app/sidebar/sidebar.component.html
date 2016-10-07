@@ -1,0 +1,12 @@
+<aside class="menu">
+    <div class="playgrounds-list">
+        <div class="list-group">
+            <a class="list-group-item" [routerLink]="['/playground', playground.id]" routerLinkActive="active" *ngFor="let playground of playgrounds$ | async">
+                <span class="badge">{{playground.position | distance | humanizeDistance}}</span>
+                <h4 class="list-group-item-heading">{{playground.name}}</h4>
+                <p class="list-group-item-text">{{playground.description}}</p>
+            </a>
+            <span *ngIf="!playgrounds" class="list-group-item text-center"><i class="fa fa-circle-o-notch fa-spin fa-2x"></i></span>
+        </div>
+    </div>
+</aside>

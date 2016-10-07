@@ -39,10 +39,6 @@ export class MapComponent implements OnInit, OnDestroy {
       .subscribe(location => {
         console.log('Obtained location', location);
       });
-    this.markers$ = this.locationService.current
-      .do(position => this.center = new Center(position.lat, position.lng))
-      .map(position => new Marker('me', position.lat, position.lng));
-
   }
 
   ngOnDestroy(): void {

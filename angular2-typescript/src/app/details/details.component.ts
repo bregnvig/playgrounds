@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Playground, PlaygroundService, Rating, Summary } from '../shared';
+import { Playground, Summary } from '../shared';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Center, LeafletComponent, Marker } from '../leaflet';

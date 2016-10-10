@@ -81,7 +81,7 @@ undefined {
     border-radius: 6px;
     box-shadow: 2px 2px 2px #808080;
     overflow: auto;
-    z-index: 5;
+    z-index: 500;
 }
 
 .menu form {

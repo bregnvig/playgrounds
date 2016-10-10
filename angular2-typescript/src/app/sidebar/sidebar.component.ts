@@ -1,8 +1,6 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { Playground, PlaygroundService, LocationService } from '../shared';
-import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/filter';

@@ -4,7 +4,8 @@ import { Component, OnDestroy, AfterViewInit, Input } from '@angular/core';
 import { Center } from './center';
 import { Marker } from './marker';
 
-import { TileLayer, Map, LatLng, control, Marker as LeafletMarker } from 'leaflet';
+import { TileLayer, tileLayer, Map, map, latLng, LatLng, control, Marker as LeafletMarker } from 'leaflet';
+
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -35,7 +36,7 @@ export class LeafletComponent implements AfterViewInit, OnDestroy {
 
   constructor() {
     this.baseMaps = {
-      OpenStreetMap: new TileLayer('///{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+      OpenStreetMap: tileLayer('///{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       })
     };
@@ -47,7 +48,7 @@ export class LeafletComponent implements AfterViewInit, OnDestroy {
     console.log('Using zoom', this._zoom);
     console.log('Center', JSON.stringify(this._center));
     console.groupEnd();
-    this._map = new Map(this.mapId, {
+    this._map = map(this.mapId, {
       zoomControl: false,
       center: this._center,
       zoom: this._zoom,
@@ -69,7 +70,7 @@ export class LeafletComponent implements AfterViewInit, OnDestroy {
   @Input()
   public set center(center: Center) {
     console.log('Updating center', center, this._zoom);
-    this._center = center ? new LatLng(center.latitude, center.longitude) : null;
+    this._center = center ? latLng(center.latitude, center.longitude) : null;
     if (center && center.zoom) {
       this._zoom = center.zoom;
     }
@@ -88,7 +89,7 @@ export class LeafletComponent implements AfterViewInit, OnDestroy {
     console.log('Setting zoom', zoom);
     this._zoom = zoom;
     if (this._map) {
-      this._map.setZoom(zoom);
+      this._map.setZoom(zoom, {});
     }
   }
 
@@ -102,7 +103,7 @@ export class LeafletComponent implements AfterViewInit, OnDestroy {
 
     this.removeMarker(marker.name);
     if (marker.hasPosition) {
-      const position = new LatLng(marker.latitude, marker.longitude);
+      const position = latLng(marker.latitude, marker.longitude);
       console.log('Adding marker', position);
       this._namedMarkers[marker.name] = MarkerFactory.newMarker(position, false, marker.message).addTo(this._map);
       return this._namedMarkers[marker.name];

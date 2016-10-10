@@ -1,6 +1,5 @@
 import { Routes, RouterModule } from '@angular/router';
 import { MapComponent } from './map';
-import { DetailsComponent } from './details/details.component';
 import { RatingResolveService } from './shared/rating-resolve.service';
 import { PlaygroundResolveService } from './shared/playground-resolve.service';
 

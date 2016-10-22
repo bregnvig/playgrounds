@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 import { LocationService } from '../location.service';
 import { Coordinate } from '../coordinate';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Pipe({
   name: 'distance',

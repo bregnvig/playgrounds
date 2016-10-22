@@ -3,10 +3,7 @@ import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Summary, Rating, PlaygroundService, Coordinate, Playground } from './';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { environment } from '../../environments/environment';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/mergeMap';
 import { Subject, Observable } from 'rxjs';
-import 'rxjs/operator/map';
 
 interface IRatrSummary {
   identifier: number;

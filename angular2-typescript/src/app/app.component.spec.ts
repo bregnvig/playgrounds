@@ -1,7 +1,5 @@
 /* tslint:disable:no-unused-variable */
-
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar';
@@ -9,10 +7,13 @@ import { FooterComponent } from './footer';
 import { MapComponent } from './map';
 import { PlaygroundService, LocationService } from './shared';
 import { LeafletModule } from './leaflet';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { MOCK_PLAYGROUNDS } from './shared/mock-playgrounds';
 import { DefaultDescriptionPipe, DistancePipe, HumanizeDistancePipe } from './shared/pipes';
 import { routing } from './app.routing';
+import { ReviewModule } from './rating/review.module';
+import { RouterTestingModule } from '@angular/router/testing';
+import { APP_BASE_HREF } from '@angular/common';
 
 export const FakePlaygroundService = {
   provide: PlaygroundService,
@@ -26,7 +27,13 @@ export const FakePlaygroundService = {
 describe('App: Playgrounds', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LeafletModule, routing, ReactiveFormsModule],
+      imports: [
+        LeafletModule,
+        RouterTestingModule,
+        routing,
+        ReactiveFormsModule,
+        ReviewModule,
+      ],
       declarations: [
         AppComponent,
         MapComponent,
@@ -34,9 +41,12 @@ describe('App: Playgrounds', () => {
         FooterComponent,
         DefaultDescriptionPipe,
         DistancePipe,
-        HumanizeDistancePipe
+        HumanizeDistancePipe,
       ],
-      providers: [FakePlaygroundService, LocationService],
+      providers: [FakePlaygroundService, LocationService, {
+        provide: APP_BASE_HREF,
+        useValue: '/',
+      }],
     });
   });
 
@@ -52,7 +62,7 @@ describe('App: Playgrounds', () => {
   //   expect(app.title).toEqual('app works!');
   // }));
 
-  it('should render title in a h1 tag', async(() => {
+  it('should have router-outlet tag', async(() => {
     let fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     let compiled = fixture.debugElement.nativeElement;

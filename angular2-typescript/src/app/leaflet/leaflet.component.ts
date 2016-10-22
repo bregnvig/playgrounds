@@ -7,8 +7,7 @@ import { Marker } from './marker';
 import { TileLayer, tileLayer, Map, map, latLng, LatLng, control, Marker as LeafletMarker } from 'leaflet';
 
 
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
 
 import { MarkerFactory } from './marker-factory';
 

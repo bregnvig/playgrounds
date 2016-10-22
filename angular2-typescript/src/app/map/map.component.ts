@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/merge';
+import { ActivatedRoute } from '@angular/router';
+
+import { Observable, Subscription } from 'rxjs';
+
 import { Playground, LocationService, Coordinate, Summary } from '../shared';
 import { Marker, Center } from '../leaflet';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 
 interface ResolvedData {
   summary: Summary;

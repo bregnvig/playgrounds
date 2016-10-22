@@ -2,11 +2,15 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { PlaygroundResolveService } from './playground-resolve.service';
+import {RouterTestingModule} from '@angular/router/testing';
+import { PlaygroundService } from './';
+import { HttpModule } from '@angular/http';
 
 describe('Service: PlaygroundResolve', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PlaygroundResolveService]
+      imports: [ RouterTestingModule, HttpModule],
+      providers: [PlaygroundService, PlaygroundResolveService]
     });
   });
 

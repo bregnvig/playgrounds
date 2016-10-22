@@ -1,11 +1,8 @@
 /* tslint:disable:no-unused-variable */
-
-import { TestBed, async, inject } from '@angular/core/testing';
-import { LocationService, Coordinate } from '../index';
+import { TestBed, inject } from '@angular/core/testing';
+import { LocationService } from '../index';
 import { DistancePipe } from './distance.pipe';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/observable/of';
+import { Subject } from 'rxjs';
 
 const subject = new Subject();
 const locationServiceFactory = () => {

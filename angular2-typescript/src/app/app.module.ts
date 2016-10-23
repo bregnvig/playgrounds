@@ -6,9 +6,9 @@ import { LeafletModule } from './leaflet';
 import { SidebarComponent } from './sidebar';
 import { FooterComponent } from './footer';
 import { MapComponent } from './map';
-import { routing } from './app.routing';
-import SharedModule from './shared/shared.module';
+import { SharedModule } from './shared/shared.module';
 import { ReviewModule } from './rating/review.module';
+import { PlaygroundsRoutingModule } from './app-routing.module';
 
 @NgModule({
   imports: [
@@ -16,7 +16,7 @@ import { ReviewModule } from './rating/review.module';
     ReactiveFormsModule,
     LeafletModule,
     ReviewModule,
-    routing,
+    PlaygroundsRoutingModule,
     SharedModule.forRoot()
   ],
   declarations: [

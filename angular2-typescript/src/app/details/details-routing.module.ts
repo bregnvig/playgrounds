@@ -2,6 +2,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { DetailsComponent } from './details.component';
 import { RatingResolveService } from '../shared/rating-resolve.service';
 import { PlaygroundResolveService } from '../shared/playground-resolve.service';
+import { NgModule } from '@angular/core';
+
 const routes: Routes = [
   {
     path: ':id',
@@ -13,4 +15,9 @@ const routes: Routes = [
   }
 ];
 
-export const routing = RouterModule.forChild(routes);
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+  providers: []
+})
+export class DetailsRoutingModule { }

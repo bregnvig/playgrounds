@@ -20,7 +20,7 @@ import { HumanizeDistancePipe, DistancePipe, DefaultDescriptionPipe } from './pi
     HumanizeDistancePipe,
   ],
 })
-export default class SharedModule {
+export class SharedModule {
   public static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,

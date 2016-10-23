@@ -1,16 +1,17 @@
 /* tslint:disable:no-unused-variable */
+/* tslint:disable:no-unused-import */
 import { ReactiveFormsModule } from '@angular/forms';
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar';
 import { FooterComponent } from './footer';
 import { MapComponent } from './map';
-import { PlaygroundService, LocationService } from './shared';
+import { PlaygroundService, Playground, LocationService } from './shared';
 import { LeafletModule } from './leaflet';
 import { Observable } from 'rxjs';
 import { MOCK_PLAYGROUNDS } from './shared/mock-playgrounds';
 import { DefaultDescriptionPipe, DistancePipe, HumanizeDistancePipe } from './shared/pipes';
-import { routing } from './app.routing';
+import { PlaygroundsRoutingModule } from './app-routing.module';
 import { ReviewModule } from './rating/review.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { APP_BASE_HREF } from '@angular/common';
@@ -30,7 +31,7 @@ describe('App: Playgrounds', () => {
       imports: [
         LeafletModule,
         RouterTestingModule,
-        routing,
+        PlaygroundsRoutingModule,
         ReactiveFormsModule,
         ReviewModule,
       ],

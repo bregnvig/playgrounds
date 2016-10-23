@@ -6,3 +6,4 @@ angular2-typescript/node_modules
 angular2-typescript/typings
 angular2-typescript/dist
 angular2-typescript/coverage
+yarn.lock

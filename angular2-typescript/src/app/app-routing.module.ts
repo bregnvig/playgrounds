@@ -1,7 +1,9 @@
+import { NgModule } from '@angular/core';
+
 import { Routes, RouterModule } from '@angular/router';
-import { MapComponent } from './map';
-import { RatingResolveService } from './shared/rating-resolve.service';
 import { PlaygroundResolveService } from './shared/playground-resolve.service';
+import { RatingResolveService } from './shared/rating-resolve.service';
+import { MapComponent } from './map/map.component';
 
 const routes: Routes = [
   {
@@ -18,7 +20,7 @@ const routes: Routes = [
   },
   {
     path: 'details',
-    loadChildren: 'app/details/details.module'
+    loadChildren: 'app/details/details.module#DetailsModule'
   },
   {
     path: '**',
@@ -27,4 +29,9 @@ const routes: Routes = [
   },
 ];
 
-export const routing = RouterModule.forRoot(routes);
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+  providers: []
+})
+export class PlaygroundsRoutingModule { }

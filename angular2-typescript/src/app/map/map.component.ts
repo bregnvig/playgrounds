@@ -17,14 +17,12 @@ interface ResolvedData {
   templateUrl: 'map.component.html',
   styleUrls: ['map.component.css']
 })
-export class MapComponent implements OnInit, OnDestroy {
+export class MapComponent implements OnInit {
 
-  public playground: Playground;
-  public summary: Summary;
-  public markers: Observable<Marker>;
+  public playground$: Observable<Playground>;
+  public summary$: Observable<Summary>;
+  public markers$: Observable<Marker>;
   public center: Center = new Center(56.360029, 10.746635);
-
-  private subscription: Subscription;
 
   constructor(private locationService: LocationService, private route: ActivatedRoute) {
   }
@@ -38,35 +36,17 @@ export class MapComponent implements OnInit, OnDestroy {
       .subscribe(location => {
         console.log('Obtained location', location);
       });
-    this.subscription = this.route.data.subscribe((data: ResolvedData) => {
-      this.summary = data.summary;
-      this.playground = data.playground;
-      if (data.playground) {
-        this.center = new Center(data.playground.position.lat, data.playground.position.lng, 16);
-      }
-    });
-
-    const playgroundSelected = this.route.data
+    this.summary$ = this.route.data.map((data: ResolvedData) => data.summary);
+    this.playground$ = this.route.data
       .map((data: ResolvedData) => data.playground)
       .filter(playground => !!playground)
-      .map((playground: Playground) => new Marker('playground', playground.position.lat, playground.position.lng, playground.name));
-    this.markers = this.locationService.current
+      .do(playground => this.center = new Center(playground.position.lat, playground.position.lng, 17));
+
+    const playgroundSelected$ = this.playground$.map((playground: Playground) => new Marker('playground', playground.position.lat, playground.position.lng, playground.name));
+    this.markers$ = this.locationService.current
       .catch(() => Observable.empty())
       .filter(coordinate => !!coordinate)
       .map((coordinate: Coordinate) => new Marker('me', coordinate.lat, coordinate.lng, 'Her er jeg'))
-      .merge(playgroundSelected);
+      .merge(playgroundSelected$);
   }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  public playgroundSelected(playground: Playground): void {
-    this.playground = playground;
-    this.center = new Center(playground.position.lat, playground.position.lng, 17);
-    console.log('Playground selected', playground);
-  }
-
 }

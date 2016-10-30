@@ -5,5 +5,5 @@
     <app-rating (onChange)="score = $event" [rating]="score"></app-rating>
   </h1>
   <app-review class="pane" [rating]="score" [comment]="comment.value" ></app-review>
-  <button class="btn btn-lg btn-block btn-default pane fixed-size" type="submit" [disabled]="reviewForm.form.invalid || !rating"><strong>INDSEND</strong></button>
+  <button class="btn btn-lg btn-block btn-default pane fixed-size" type="submit" [disabled]="reviewForm.form.invalid || !score"><strong>INDSEND</strong></button>
 </form>

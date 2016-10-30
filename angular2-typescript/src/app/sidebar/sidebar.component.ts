@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Playground, PlaygroundService, LocationService } from '../shared';
 import { Observable } from 'rxjs';
@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
   templateUrl: 'sidebar.component.html',
   styleUrls: ['sidebar.component.css']
 })
-export class SidebarComponent implements OnInit, OnDestroy {
+export class SidebarComponent implements OnInit {
 
-  public playgrounds: Playground[];
+  public playgrounds$: Observable<Playground[]>;
 
   private filterControl: FormControl = new FormControl();
 
@@ -29,15 +29,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .combineLatest(this.playgroundService.getPlaygrounds(), (text, playgrounds) =>
         playgrounds.filter((playground: Playground) => playground.name.toLocaleLowerCase().includes(text))
       );
-    Observable.combineLatest(filter$, this.locationService.current.startWith(null), (playgrounds, location) => {
+
+    this.playgrounds$ = Observable.combineLatest(filter$, this.locationService.current.startWith(null), (playgrounds, location) => {
       const l = this.locationService;
       return location ? playgrounds.sort((a: Playground, b: Playground) => l.getDistance(a.position, location) - l.getDistance(b.position, location)) : playgrounds;
     })
-      .catch(error => filter$)
-      .subscribe(playgrounds => this.playgrounds = playgrounds);
-  }
-
-  public ngOnDestroy() {
-    console.log('SidebarComponent is being destroyed');
+      .catch(error => filter$);
   }
 }

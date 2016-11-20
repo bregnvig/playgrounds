@@ -4,6 +4,7 @@ import { Summary, Rating, PlaygroundService, Coordinate, Playground } from './';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { environment } from '../../environments/environment';
 import { Subject, Observable } from 'rxjs';
+import 'rxjs/operator/filter';
 
 interface IRatrSummary {
   identifier: number;
@@ -23,15 +24,15 @@ class HttpSummary implements Summary {
 
     this.$request = this.$add.asObservable()
       .startWith(null)
-      .mergeMap(rating => {
+      .flatMap(rating => {
         return (rating ?
           this.http.post(`${environment.ratingURL}/location/${this.id}/rating`, rating, OPTIONS)
-            .mergeMap(() => this.http.get(`${environment.ratingURL}/location/${id}`))
+            .flatMap(() => this.http.get(`${environment.ratingURL}/location/${id}`))
             .map(response => response.json())
             .map(summary => this.averageRating = summary.averageRating)
           : Observable.of(Observable.empty()));
       })
-      .mergeMap(() => this.http.get(`${environment.ratingURL}/location/${this.id}/rating`))
+      .flatMap(() => this.http.get(`${environment.ratingURL}/location/${this.id}/rating`))
       .map(response => response.json())
       .share();
   }
@@ -57,7 +58,7 @@ export class RatingResolveService implements Resolve<Summary> {
     return this.http.get(`${environment.ratingURL}/location/${id}`)
       .catch(() => {
         return this.playgroundService.find(id.toString())
-          .mergeMap((playground: Playground) => {
+          .flatMap((playground: Playground) => {
             const payload = {
               identifier: playground.id,
               lat: playground.position.lat,
@@ -65,7 +66,7 @@ export class RatingResolveService implements Resolve<Summary> {
             };
             return this.http.post(`${environment.ratingURL}/location`, payload, OPTIONS);
           })
-          .mergeMap(() => this.http.get(`${environment.ratingURL}/location/${id}`))
+          .flatMap(() => this.http.get(`${environment.ratingURL}/location/${id}`))
           .catch(() => {
             this.router.navigate(['/']);
             return Observable.throw(`No playground with id ${id} was found`);

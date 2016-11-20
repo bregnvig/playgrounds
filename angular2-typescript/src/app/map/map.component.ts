@@ -1,15 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
-import { Observable, Subscription } from 'rxjs';
-
+import { Observable } from 'rxjs';
 import { Playground, LocationService, Coordinate, Summary } from '../shared';
 import { Marker, Center } from '../leaflet';
-
-interface ResolvedData {
-  summary: Summary;
-  playground: Playground;
-}
 
 /* tslint:disable:component-selector-name */
 @Component({
@@ -22,7 +15,7 @@ export class MapComponent implements OnInit {
   public playground$: Observable<Playground>;
   public summary$: Observable<Summary>;
   public markers$: Observable<Marker>;
-  public center: Center = new Center(56.360029, 10.746635);
+  public center: Center = new Center(55.9594413, 11.7643769);
 
   constructor(private locationService: LocationService, private route: ActivatedRoute) {
   }
@@ -36,9 +29,9 @@ export class MapComponent implements OnInit {
       .subscribe(location => {
         console.log('Obtained location', location);
       });
-    this.summary$ = this.route.data.map((data: ResolvedData) => data.summary);
+    this.summary$ = this.route.data.pluck<Summary>('summary');
     this.playground$ = this.route.data
-      .map((data: ResolvedData) => data.playground)
+      .pluck<Playground>('playground')
       .filter(playground => !!playground)
       .do(playground => this.center = new Center(playground.position.lat, playground.position.lng, 17));
 

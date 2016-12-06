@@ -2,8 +2,8 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 
 @Component({
   selector: 'app-rating',
-  templateUrl: 'rating.component.html',
-  styleUrls: ['rating.component.css'],
+  templateUrl: './rating.component.html',
+  styleUrls: ['./rating.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RatingComponent {

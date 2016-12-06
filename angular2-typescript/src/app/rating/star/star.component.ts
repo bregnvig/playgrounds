@@ -2,8 +2,8 @@ import {Component, Input, ChangeDetectionStrategy, Output, EventEmitter} from '@
 
 @Component({
   selector: 'app-star',
-  templateUrl: 'star.component.html',
-  styleUrls: ['star.component.css'],
+  templateUrl: './star.component.html',
+  styleUrls: ['./star.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StarComponent {

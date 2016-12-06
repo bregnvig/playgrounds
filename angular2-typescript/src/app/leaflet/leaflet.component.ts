@@ -15,8 +15,8 @@ import { MarkerFactory } from './marker-factory';
 /* tslint:disable:component-selector-prefix */
 @Component({
   selector: 'leaflet',
-  templateUrl: 'leaflet.component.html',
-  styleUrls: ['leaflet.component.css']
+  templateUrl: './leaflet.component.html',
+  styleUrls: ['./leaflet.component.css']
 })
 export class LeafletComponent implements AfterViewInit, OnDestroy {
 

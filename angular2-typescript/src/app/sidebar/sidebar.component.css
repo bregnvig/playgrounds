@@ -1,0 +1,3 @@
+ div.list-group span:not(:first-child) {
+  display: none;
+}

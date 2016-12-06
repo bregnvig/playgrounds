@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
-  templateUrl: 'sidebar.component.html',
-  styleUrls: ['sidebar.component.css']
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
 
@@ -15,6 +15,10 @@ export class SidebarComponent implements OnInit {
   private filterControl: FormControl = new FormControl();
 
   constructor(private playgroundService: PlaygroundService, private locationService: LocationService) {
+  }
+
+  public trackPlayground(index: number, playground: Playground) {
+    return playground.id;
   }
 
   public ngOnInit() {

@@ -29,11 +29,11 @@ export class MapComponent implements OnInit {
       .subscribe(location => {
         console.log('Obtained location', location);
       });
-    this.summary$ = this.route.data.pluck<Summary>('summary');
+    this.summary$ = this.route.data.pluck<any, Summary>('summary');
     this.playground$ = this.route.data
-      .pluck<Playground>('playground')
+      .pluck<any, Playground>('playground')
       .filter(playground => !!playground)
-      .do(playground => this.center = new Center(playground.position.lat, playground.position.lng, 17));
+      .do((playground: Playground) => this.center = new Center(playground.position.lat, playground.position.lng, 17));
 
     const playgroundSelected$ = this.playground$.map((playground: Playground) => new Marker('playground', playground.position.lat, playground.position.lng, playground.name));
     this.markers$ = this.locationService.current

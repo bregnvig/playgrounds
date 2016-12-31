@@ -11,7 +11,7 @@
                 <h4 class="list-group-item-heading">{{playground.name}}</h4>
                 <p class="list-group-item-text">{{playground.description | defaultDescription}}</p>
             </a>
-            <span class="list-group-item text-center" *ngIf="!(playgrounds | async)?.length"><i class="fa fa-circle-o-notch fa-spin fa-2x"></i></span>
+            <span class="list-group-item text-center"><i class="fa fa-circle-o-notch fa-spin fa-2x"></i></span>
         </div>
     </div>
 </aside>
